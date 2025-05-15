@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (searchInput) {
     searchInput.addEventListener("input", function () {
-      const termo = this.value.trim();
+      const filtro = this.value.trim();
 
-      if (termo.length >= 3) {
-        fetch(`/agenciaDigital/jornalista/consultar?filtro=${encodeURIComponent(termo)}`)
+      if (filtro.length >= 3) {
+        fetch(`/agenciaDigital/jornalista/consultar?filtro=${encodeURIComponent(filtro)}`)
           .then(response => response.json())
           .then(data => {
             resultsTable.innerHTML = ""; // Limpa
@@ -24,10 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Clique na linha para selecionar
               row.addEventListener("click", () => {
-                // Remove seleção anterior
-                resultsTable.querySelectorAll("tr.selecionada").forEach(r => r.classList.remove("selecionada"));
-                row.classList.add("selecionada");
-                jornalistaSelecionado = j; // guarda o selecionado
+                // Verifica se a linha já está selecionada
+                if (!row.classList.contains("selecionada")) {
+                  // Remove seleção anterior
+                  resultsTable.querySelectorAll("tr.selecionada").forEach(r => r.classList.remove("selecionada"));
+                  // Adiciona a classe de seleção à linha clicada
+                  row.classList.add("selecionada");
+                  // Atualiza o objeto do jornalista selecionado
+                  jornalistaSelecionado = j;
+                } else {
+                  // Se a linha já estiver selecionada, desmarque-a
+                  row.classList.remove("selecionada");
+                  jornalistaSelecionado = null;
+                }
               });
 
               resultsTable.appendChild(row);
@@ -52,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     selecionarJornalista(jornalistaSelecionado);
 
-    // Fecha o modal (Bootstrap 5)
+    // Fecha o modal
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBuscarJornalista"));
     modal.hide();
   });

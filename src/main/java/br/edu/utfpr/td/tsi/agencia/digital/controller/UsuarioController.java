@@ -83,25 +83,6 @@ public class UsuarioController {
 	    return "formConsultaUsuarios"; 
 	}
 	
-	@GetMapping("/editar/{id}")
-	public String editar(@PathVariable("id") String id, RedirectAttributes redirectAttributes, Model model) {
-	    try {
-	        Usuario usuario = usuarioService.buscarPorId(id).orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
-	        UsuarioDTO usuarioDTO = usuarioService.converterParaDTO(usuario);
-	              
-	        model.addAttribute("usuarioDTO", usuarioDTO);
-	        
-	        return "formCadastroUsuario";
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        redirectAttributes.addFlashAttribute("mensagem", "Ocorreu um erro ao tentar editar o usuário.");
-	        redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
-
-	        return "redirect:/usuario/consultar";
-	    }
-	}
-	
     @PostMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
         try {

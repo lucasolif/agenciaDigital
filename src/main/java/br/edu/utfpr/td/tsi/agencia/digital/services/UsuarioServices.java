@@ -48,8 +48,8 @@ public class UsuarioServices {
         return usuarioRepository.findById(id);
     }
     
-    public List<Usuario> buscarNome(String nome) {
-        return usuarioRepository.findByNomeIgnoreCase(".*" + nome + ".*");
+    public List<Usuario> buscarNome(String nome, String username) {
+        return usuarioRepository.findByNomeOrUsernameIgnoreCase(nome, username);
     }
     
     public List<Usuario> buscarPorNomeOuUsername(String nomeUsername) {

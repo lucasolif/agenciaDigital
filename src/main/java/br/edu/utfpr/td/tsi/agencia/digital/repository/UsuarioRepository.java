@@ -12,8 +12,7 @@ public interface UsuarioRepository extends MongoRepository<Usuario, String>{
 	Optional<Usuario> findByNome(String nome);
 	Optional<Usuario> findByUsername(String username);
 	
-    @Query("{ 'nome': { $regex: ?0, $options: 'i' } }")
-    List<Usuario> findByNomeIgnoreCase(String nome);
+    //List<Usuario> findByNomeContainingIgnoreCase(String nome);
     
     @Query("{ '$or': [ { 'nome': { $regex: ?0, $options: 'i' } }, { 'username': { $regex: ?0, $options: 'i' } } ] }")
     List<Usuario> findByNomeOrUsernameIgnoreCase(String nome, String username);
