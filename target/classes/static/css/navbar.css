@@ -1,0 +1,48 @@
+body {
+    color: #1e1e1e;
+    font-family: 'Inter', sans-serif;
+    padding-top: 40px; /* ou o valor real da altura da navbar */
+}
+
+.navbar{
+    background-color: #1e1e1e; /* tom mais escuro que o sidebar */
+    color: #bb86fc;
+    font-family: 'Inter', sans-serif;
+}
+
+.brand-title {
+   	color: white;
+   	
+}
+
+.rounded-img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #bb86fc; /* Azul mais claro */
+    padding: 2px;
+}
+.logo-img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain; /* mantém proporção sem esticar */
+    border-radius: 50%;
+    
+    padding: 2px;
+}
+
+a {
+    color: #bb86fc;
+}
+
+.alert-danger {
+    background-color: #dce9f9;
+    color: #1a2d4d;
+    border: 1px solid #aac4e5;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #1e1e1e;
+    color: #bb86fc;
+}

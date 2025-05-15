@@ -1,0 +1,10 @@
+#resultadoBusca tr.clicavel {
+  cursor: pointer;
+}
+#resultadoBusca tr.clicavel:hover {
+  background-color: #f0f0f0;
+}
+#resultadoBusca tr.selecionada {
+  background-color: #bb86fc;
+  color: white;
+}

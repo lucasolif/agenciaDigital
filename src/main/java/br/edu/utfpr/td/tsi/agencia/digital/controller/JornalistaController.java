@@ -1,0 +1,99 @@
+package br.edu.utfpr.td.tsi.agencia.digital.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mongodb.MongoException;
+
+import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
+import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
+import br.edu.utfpr.td.tsi.agencia.digital.services.JornalistaServices;
+
+
+@Controller
+@RequestMapping("/jornalista")
+public class JornalistaController {
+	
+	@Autowired
+	private JornalistaServices jornalistaService;
+
+    @GetMapping(value = "/cadastrar")
+    public String exibirPaginaCadastro(Model model) {
+        Jornalista jornalista = new Jornalista();
+        jornalista.setAtivo(true); 
+
+        model.addAttribute("jornalista", jornalista);
+        
+        return "formCadastroJornalista";
+    }
+    
+	@PostMapping(value = "/cadastrar")
+	public String salvar (Jornalista jornalista, RedirectAttributes redirectAttrs) { 		
+		try {		
+			
+	        if (jornalista.getId() != null && jornalista.getId().isEmpty()) {
+	            jornalista.setId(null);
+	        }
+	        
+			boolean novoCadastro = (jornalista.getId() == null);	
+			jornalistaService.salvar(jornalista);
+			
+			if(novoCadastro){
+	        redirectAttrs.addFlashAttribute("mensagem", "Jornalista cadastrado(a) com sucesso!");
+		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
+			}else {
+		        redirectAttrs.addFlashAttribute("mensagem", "Jornalista alterado(a) com sucesso!");
+		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
+			}
+
+		}catch (DadosDuplicadosException e) {
+		    redirectAttrs.addFlashAttribute("mensagem", "Algum dado inserido já pertence a outro jornalista");
+		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
+		}catch (MongoException e) {
+		    redirectAttrs.addFlashAttribute("mensagem", "Erro ao acessar o banco de dados.");
+		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
+        }  catch(Exception e) {
+            redirectAttrs.addFlashAttribute("mensagem", "Erro inesperado: " + e.getMessage());
+            redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
+		}
+
+		return "redirect:/jornalista/cadastrar";
+
+	}
+	
+    @PostMapping("/excluir/{id}")
+    public String excluir(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
+        try {
+        	jornalistaService.excluir(id);
+            redirectAttributes.addFlashAttribute("mensagem", "Jornalista excluído(a) com sucesso!");
+            redirectAttributes.addFlashAttribute("tipoMensagem", "success");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o(a) jornalista.");
+            redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
+        }
+        return "redirect:/jornalista/cadastrar";
+    }
+    
+    @GetMapping("/consultar")
+    @ResponseBody
+    public List<Jornalista> buscarJornalistas(@RequestParam(name = "filtro") String filtro) {
+        List<Jornalista> listaPessoas = null;
+      
+
+        if (filtro != null && !filtro.isEmpty()) {
+        	listaPessoas = jornalistaService.buscarNome(filtro);          
+        }
+
+        return listaPessoas;
+    }
+}
