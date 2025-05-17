@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.SenhasDiferentesException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
 import br.edu.utfpr.td.tsi.agencia.digital.services.UsuarioServices;
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -38,8 +40,15 @@ public class UsuarioController {
     }
 
     @PostMapping(value = "/cadastrar")
-    public String salvar(UsuarioDTO usuarioDTO, Model model, RedirectAttributes redirectAttrs) {
-        try {
+    public String salvar(@Valid UsuarioDTO usuarioDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
+        
+        if (bindingResult.hasErrors()) {
+            // Retorna para o formulário com os erros
+            model.addAttribute("usuarioDTO", usuarioDTO);
+            return "formCadastroUsuario";
+        }
+    	
+    	try {
             // Verifica se as senhas coincidem
             if (!usuarioDTO.getPassword().equals(usuarioDTO.getConfirmarSenha())) {
                 throw new SenhasDiferentesException("As senhas não coincidem.");

@@ -1,0 +1,12 @@
+.btn-buscar {
+    background-color: #f0f0f0;
+    color: #000;
+    border: 1px solid #ced4da;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-buscar:hover {
+    background-color: #bb86fc;
+    color: #fff;
+    border-color: #bb86fc;
+}

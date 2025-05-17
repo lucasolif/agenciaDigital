@@ -15,28 +15,38 @@ public class Jornalista {
     @Id
     private String id;
        
-    @NotBlank(message = "Nome é obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String nome;
-    @NotBlank(message = "CPF é obrigatório")
+    
+    @NotBlank(message = "Campo obrigatório")
     @Indexed(unique = true)
     private String cpf;
-    @NotNull(message = "Data de Nascimento é obrigatório")
+    
+    @NotNull(message = "Campo obrigatório")
     private LocalDate dataNascimento;
+    
     private String rg;
-    @NotBlank(message = "Sexo é obrigatório")
+    
+    @NotBlank(message = "Campo obrigatório")
     private String sexo;
-    @NotBlank(message = "Celular é obrigatório")
+    
+    @NotBlank(message = "Campo obrigatório")
     @Indexed(unique = true)
     private String celular;
+    
     private String telefone;
+    
+    @NotBlank(message = "Campo obrigatório")
     @Indexed(unique = true)
     private String email;
+    
     private boolean ativo;
     
-    @NotNull(message = "Endereço é obrigatório")
+    @NotNull(message = "Campo obrigatório")
     private Endereco endereco;
     
 
+    
     public String getId() {
         return id;
     }

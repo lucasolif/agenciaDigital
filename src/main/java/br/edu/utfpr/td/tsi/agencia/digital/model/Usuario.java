@@ -14,14 +14,18 @@ public class Usuario {
 
     @NotBlank(message = "Nome do usuário é obrigatório")
     private String nome;
+    
     @NotBlank(message = "Email do usuário é obrigatório")
     @Indexed(unique = true)
     private String email;
+    
     @NotBlank(message = "Celular do usuário é obrigatório")
     private String celular;
+    
     @NotBlank(message = "Login do usuário é obrigatório")
     @Indexed(unique = true)
     private String username;
+    
     @NotBlank(message = "Senha do usuário é obrigatório")
     private String password;
 

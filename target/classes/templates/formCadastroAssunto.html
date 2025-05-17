@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro Assunto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+        
+            <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <h4>Cadastro Cargo</h4>
+
+                <div th:if="${mensagem}" class="alert alert-dismissible fade show" th:classappend="' alert-' + ${tipoMensagem}" role="alert">
+                    <span th:text="${mensagem}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>          
+
+                <form th:action="@{/assunto/cadastrar}" th:object="${assunto}" method="post" class="needs-validation" novalidate>
+                	
+                    <div class="row mb-3 mt-5">
+                    	<div class="col-md-3">
+	                        <label for="nome" class="form-label">Nome do Assunto<span class="text-danger">*</span></label>
+	                        <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+	                        <div class="text-danger" th:errors="*{nome}"></div>
+                         </div>
+                         <input type="hidden" th:field="*{id}" />
+                    </div>
+                  
+                    <div class="row mb-3 mt-4">
+                        <div class="col-md-0"></div>
+                        <div class="col-md-3 text-end">
+                            <button type="submit" class="btn btn-success me-2">Salvar</button>
+                            <a th:href="@{/inicio}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </div>                 
+                </form>         
+            </main>
+        </div>
+    </div>
+</body>
+</html>

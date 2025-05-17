@@ -43,6 +43,7 @@ public class JornalistaServices {
         return jornalistaRepository.findById(id);
     }
     
+    
     public List<Jornalista> buscarNome(String nome) {
         return jornalistaRepository.findByNomeContainingIgnoreCase(nome);
     }

@@ -33,7 +33,7 @@
                     
                     <div class="row mb-3 mt-5">
                         <div class="col-md-4">
-                            <label class="form-label">Nome</label>
+                            <label class="form-label">Nome<span class="text-danger">*</span></label>
                             <input type="text" th:field="*{nome}" class="form-control" required />
                             <div class="text-danger" th:errors="*{nome}"></div>
                         </div>
@@ -47,12 +47,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-2">
-                            <label class="form-label">Celular</label>
+                            <label class="form-label">Celular<span class="text-danger">*</span></label>
                             <input type="text" th:field="*{celular}" class="form-control" placeholder="(99) 99999-9999" required />
                             <div class="text-danger" th:errors="*{celular}"></div>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">E-mail</label>
+                            <label class="form-label">E-mail<span class="text-danger">*</span></label>
                             <input type="text" th:field="*{email}" class="form-control" required />
                             <div class="text-danger" th:errors="*{email}"></div>
                         </div>
@@ -60,21 +60,21 @@
                     
 					<div class="row mb-3">
 					    <div class="col-md-2">
-					        <label class="form-label">Login/Usuário</label>
+					        <label class="form-label">Login/Usuário<span class="text-danger">*</span></label>
 					        <input type="text" th:field="*{username}" class="form-control"
 					               th:readonly="${usuarioDTO.id != null}"
 					               th:classappend="${usuarioDTO.id != null ? 'bg-light opacity-50' : ''}" />
 					        <div class="text-danger" th:errors="*{username}"></div>
 					    </div>
 					    <div class="col-md-2">
-					        <label class="form-label">Senha</label>
+					        <label class="form-label">Senha<span class="text-danger">*</span></label>
 					        <input type="password" th:field="*{password}" class="form-control"
 					               th:readonly="${usuarioDTO.id != null}"
 					               th:classappend="${usuarioDTO.id != null ? 'bg-light opacity-50' : ''}" />
 					        <div class="text-danger" th:errors="*{password}"></div>
 					    </div>
 					    <div class="col-md-2">
-					        <label class="form-label">Confirmação Senha</label>
+					        <label class="form-label">Confirmação Senha<span class="text-danger">*</span></label>
 					        <input type="password" th:field="*{confirmarSenha}" class="form-control"
 					               th:readonly="${usuarioDTO.id != null}"
 					               th:classappend="${usuarioDTO.id != null ? 'bg-light opacity-50' : ''}" />

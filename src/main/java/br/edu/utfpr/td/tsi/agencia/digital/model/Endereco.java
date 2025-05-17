@@ -5,17 +5,17 @@ import jakarta.validation.constraints.NotNull;
 
 public class Endereco {
 
-	@NotBlank(message = "O nome da rua(logradouro) é obrigatório")
+	@NotBlank(message = "Campo obrigatório")
     private String logradouro;
-    @NotNull(message = "O número é obrigatório")
+    @NotNull(message = "Campo obrigatório")
     private int numero;
-    @NotBlank(message = "Bairro é obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String bairro;
-    @NotBlank(message = "Cidade é obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String cidade;
-    @NotBlank(message = "Estado é obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String estado;
-    @NotBlank(message = "CEP é obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String cep;
     private String complemento;
 

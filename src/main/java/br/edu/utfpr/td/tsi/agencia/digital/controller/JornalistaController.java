@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.mongodb.MongoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
 import br.edu.utfpr.td.tsi.agencia.digital.services.JornalistaServices;
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -38,11 +40,18 @@ public class JornalistaController {
     }
     
 	@PostMapping(value = "/cadastrar")
-	public String salvar (Jornalista jornalista, RedirectAttributes redirectAttrs) { 		
+	public String salvar (@Valid Jornalista jornalista, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) { 		
 		try {		
 			
+			// Retorna mensagem caso os campos obrigatório não tenha sido preenchido
+			if (bindingResult.hasErrors()) {
+				model.addAttribute("jornalista", jornalista);
+	            return "formCadastroJornalista";
+			}
+			
+			//Zerar id no salvamento de um novo cadastro
 	        if (jornalista.getId() != null && jornalista.getId().isEmpty()) {
-	            jornalista.setId(null);
+	            jornalista.setId(null);	           
 	        }
 	        
 			boolean novoCadastro = (jornalista.getId() == null);	
