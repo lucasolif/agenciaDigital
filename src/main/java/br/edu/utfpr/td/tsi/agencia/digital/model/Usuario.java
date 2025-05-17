@@ -26,7 +26,6 @@ public class Usuario {
     @Indexed(unique = true)
     private String username;
     
-    @NotBlank(message = "Senha do usuário é obrigatório")
     private String password;
 
     private boolean status;

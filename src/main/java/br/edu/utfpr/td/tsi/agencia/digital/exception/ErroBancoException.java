@@ -1,11 +1,10 @@
 package br.edu.utfpr.td.tsi.agencia.digital.exception;
 
-public class ErroBancoException extends RuntimeException{
+import com.mongodb.MongoException;
+
+public class ErroBancoException extends MongoException{
     public ErroBancoException(String mensagem) {
         super(mensagem);
     }
 
-    public ErroBancoException(String mensagem, Throwable causa) {
-        super(mensagem, causa);
-    }
 }

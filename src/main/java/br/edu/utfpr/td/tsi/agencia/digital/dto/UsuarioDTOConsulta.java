@@ -1,13 +1,11 @@
 package br.edu.utfpr.td.tsi.agencia.digital.dto;
 
+import org.springframework.data.annotation.Id;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDate;
-
-import org.springframework.data.annotation.Id;
-
-public class UsuarioDTO {
+public class UsuarioDTOConsulta {
 	
 	@Id
 	private String id;
@@ -25,11 +23,7 @@ public class UsuarioDTO {
     @NotBlank(message = "Login é obrigatório")
     private String username;
 
-    private String password;
-    private String confirmarSenha;
-
     private boolean status;    
-    private LocalDate dataCadastro;
     
     
 	public String getId() {
@@ -50,21 +44,9 @@ public class UsuarioDTO {
 	public String getUsername() {
 		return username;
 	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public String getConfirmarSenha() {
-		return confirmarSenha;
-	}
 
 	public boolean isStatus() {
 		return status;
-	}
-	
-	public LocalDate getDataCadastro() {
-		return dataCadastro;
 	}
 	
 	public void setId(String id) {
@@ -87,20 +69,8 @@ public class UsuarioDTO {
 		this.username = username;
 	}
 	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public void setConfirmarSenha(String confirmarSenha) {
-		this.confirmarSenha = confirmarSenha;
-	}
-	
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
 	
-	public void setDataCadastro(LocalDate dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
 }

@@ -22,7 +22,7 @@ public class ReportagemServices {
     	try {		
     		return reportagemRepository.save(reportagem);	
     	} catch (MongoException e) {
-            throw new ErroBancoException("Erro ao salvar no banco", e);
+            throw new ErroBancoException("Erro ao salvar no banco");
         }   
     }
 

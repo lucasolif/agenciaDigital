@@ -8,6 +8,6 @@ import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 
 public interface AssuntoRepository extends MongoRepository<Assunto, String> {
 	
-	List<Assunto>findAllByNomeIgnoreCase(String nome);
+	List<Assunto>findAllByNomeContainingIgnoreCase(String nome);
 		
 }

@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.MongoException;
-
 import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.repository.AssuntoRepository;
@@ -20,9 +18,11 @@ public class AssuntoServices {
     public Assunto salvar(Assunto assunto) {
     	try {		
     		return assuntoRepository.save(assunto);	
-    	} catch (MongoException e) {
-            throw new ErroBancoException("Erro ao salvar no banco", e);
-        }   
+    	} catch (ErroBancoException e) {
+            throw new ErroBancoException("Erro ao salvar no banco de dados");
+        } catch(Exception e) {
+        	throw new RuntimeException("Erro genêrico "+e);
+		}
     }
 
     public Optional<Assunto> buscarPorId(String id) {
@@ -34,7 +34,7 @@ public class AssuntoServices {
     }
     
     public List<Assunto> buscarNome(String filtro) {
-        return assuntoRepository.findAllByNomeIgnoreCase(filtro);
+        return assuntoRepository.findAllByNomeContainingIgnoreCase(filtro);
     }
 
     public void excluir(String id) {

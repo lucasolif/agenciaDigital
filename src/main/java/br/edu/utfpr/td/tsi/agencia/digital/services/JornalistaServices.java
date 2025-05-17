@@ -6,9 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.DuplicateKeyException;
-import com.mongodb.MongoException;
-
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
@@ -22,27 +19,18 @@ public class JornalistaServices {
 	private JornalistaRepository jornalistaRepository;
 
     public Jornalista salvar(Jornalista jornalista) {
-    	try {		
+    	try {	  		
     		return jornalistaRepository.save(jornalista);	
-    	} catch (DuplicateKeyException e) {
-    		
-            if (e.getMessage().contains("cpf")) {
-                throw new DadosDuplicadosException("Já existe um jornalista com esse CPF.", e);
-            } else if (e.getMessage().contains("email")) {
-                throw new DadosDuplicadosException("Esse e-mail já está em uso.", e);
-            } else {
-                throw new DadosDuplicadosException("Dados duplicados.", e);
-            }
-            
-        } catch (MongoException e) {
-            throw new ErroBancoException("Erro ao salvar no banco", e);
+    	} catch (DadosDuplicadosException e) {
+            throw new DadosDuplicadosException("CPF, Email ou telefone já está em uso por outro jornalista.");      
+        } catch (ErroBancoException e) {
+            throw new ErroBancoException("Erro ao salvar no banco");
         }   
     }
 
     public Optional<Jornalista> buscarPorId(String id) {
         return jornalistaRepository.findById(id);
-    }
-    
+    } 
     
     public List<Jornalista> buscarNome(String nome) {
         return jornalistaRepository.findByNomeContainingIgnoreCase(nome);

@@ -1,5 +1,6 @@
 package br.edu.utfpr.td.tsi.agencia.digital.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mongodb.MongoException;
-
+import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.services.AssuntoServices;
 import jakarta.validation.Valid;
@@ -61,11 +62,11 @@ public class AssuntoController {
 		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");		
 			}
 
-		}catch (MongoException e) {
-		    redirectAttrs.addFlashAttribute("mensagem", "Erro ao acessar o banco de dados.");
+		}catch (ErroBancoException erro) {
+		    redirectAttrs.addFlashAttribute("mensagem", erro);
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
-        }  catch(Exception e) {
-            redirectAttrs.addFlashAttribute("mensagem", "Erro inesperado: " + e.getMessage());
+        }  catch(Exception erro) {
+            redirectAttrs.addFlashAttribute("mensagem", erro);
             redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}
 
@@ -73,15 +74,16 @@ public class AssuntoController {
 	}
 	
 	@GetMapping("/consultar")
-	public String consultar(@RequestParam(name = "filtro", required = false) String filtro, Model model) {
-	    List<Assunto> listaAssunto = null;
-
-	    if (filtro != null && !filtro.isEmpty()) {
-	    	listaAssunto = assuntoServices.buscarNome(filtro);	    
-	    }
-
-	    model.addAttribute("assuntos", listaAssunto);    
-	    return "formConsultaCargos"; 
+	@ResponseBody
+	public List<Assunto> consultar(@RequestParam(name = "filtro", required = false) String filtro, Model model) {
+		
+	    if (filtro == null || filtro.isBlank()) {
+            return Collections.emptyList();   
+        }
+	    
+	    List<Assunto> listaAssunto = assuntoServices.buscarNome(filtro);	       
+	    
+	    return listaAssunto;	   
 	}
 		
     @PostMapping("/excluir/{id}")
