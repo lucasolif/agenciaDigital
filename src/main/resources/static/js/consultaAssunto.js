@@ -65,36 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.hide();
   });
   
-  //Botão de excluir
-  document.getElementById("btnExcluir").addEventListener("click", function() {
-     const form = document.querySelector("form[action*='/assunto/cadastrar']");
-     const idField = form.querySelector("input[name='id']");
-     
-     if (!idField || !idField.value) {
-       alert("Selecione um assunto antes de excluir.");
-       return;
-     }
-
-     if (!confirm("Tem certeza que deseja excluir este assunto?")) {
-       return;
-     }
-
-     // Muda ação e método para exclusão
-     form.action = "/agenciaDigital/assunto/excluir";
-     form.method = "post";
-
-     let methodInput = form.querySelector("input[name='_method']");
-     if (!methodInput) {
-       methodInput = document.createElement("input");
-       methodInput.type = "hidden";
-       methodInput.name = "_method";
-       form.appendChild(methodInput);
-     }
-     methodInput.value = "delete";
-
-     form.submit();
-   }); 
-  
   //Limpa dos dados quando fechado
   const limparModal = document.getElementById("modalBusca");
 
@@ -119,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
 function selecionarAssunto(assunto) {
 	document.querySelector("[name='id']").value = assunto.id || "";
   	document.querySelector("[name='nome']").value = assunto.nome || "";
-	
 	document.querySelector("[name='status']").checked = assunto.status || false;
  }
 
