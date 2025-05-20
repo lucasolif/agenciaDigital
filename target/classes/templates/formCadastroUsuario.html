@@ -11,8 +11,9 @@
 	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
 	<link rel="stylesheet" th:href="@{/css/navbar.css}">
 	<link rel="stylesheet" th:href="@{/css/forms.css}">
-	<script th:src="@{/js/consultaUsuario.js}"></script>
 	<link rel="stylesheet" th:href="@{/css/modalConsulta.css}">
+	<script th:src="@{/js/consultaUsuario.js}"></script>
+	<script th:src="@{/js/exclusaoGenerico.js}"></script>
 </head>
 <body>
 
@@ -104,7 +105,7 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-5 text-end">
                             <button type="submit" class="btn btn-success">Salvar</button>         
-							<button type="button" class="btn btn-danger" id="btnExcluir">Excluir</button>                      
+							<button type="button" class="btn btn-danger" id="btnExcluir" data-form-selector="form[action*='/usuario/cadastrar']" data-delete-url="/agenciaDigital/usuario/excluir">Excluir</button>                      
                             <a th:href="@{/inicio}" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </div>
@@ -114,6 +115,7 @@
     </div>
     
 	<div th:replace="~{fragments/modalUsuario :: modalBuscarUsuario}"></div>
+	<div th:replace="~{fragments/modalExclusaoGenerico :: modalExclusao}"></div>
 
 </body>
 </html>

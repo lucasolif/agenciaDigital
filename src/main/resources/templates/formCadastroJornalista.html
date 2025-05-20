@@ -11,8 +11,9 @@
 	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
 	<link rel="stylesheet" th:href="@{/css/navbar.css}">
 	<link rel="stylesheet" th:href="@{/css/forms.css}">
-	<script th:src="@{/js/consultaJornalista.js}"></script>
 	<link rel="stylesheet" th:href="@{/css/modalConsulta.css}">
+	<script th:src="@{/js/consultaJornalista.js}"></script>
+	<script th:src="@{/js/exclusaoGenerico.js}"></script>
 </head>
 <body>
 
@@ -172,7 +173,7 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-5 text-end">
                             <button type="submit" class="btn btn-success">Salvar</button>         
-							<button type="button" class="btn btn-danger" id="btnExcluir">Excluir</button>                      
+							<button type="button" class="btn btn-danger" id="btnExcluir" data-form-selector="form[action*='/jornalista/cadastrar']" data-delete-url="/agenciaDigital/jornalista/excluir">Excluir</button>                     
                             <a th:href="@{/inicio}" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </div>
@@ -183,6 +184,7 @@
     </div>
     
 	<div th:replace="~{fragments/modalJornalista :: modalBuscarJornalista}"></div>
+	<div th:replace="~{fragments/modalExclusaoGenerico :: modalExclusao}"></div>
 	
 </body>
 </html>
