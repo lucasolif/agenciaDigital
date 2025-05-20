@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.edu.utfpr.td.tsi.agencia.digital.exception.DadoVinculadoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.services.AssuntoServices;
@@ -31,8 +31,10 @@ public class AssuntoController {
 	
     @GetMapping(value = "/cadastrar")
     public String exibirPaginaCadastro(Model model) {
+    	Assunto assunto = new Assunto();
+    	assunto.setStatus(true);
     	
-    	model.addAttribute("assunto", new Assunto()); 	     
+    	model.addAttribute("assunto", assunto); 	     
         return "formCadastroAssunto";
     }
     
@@ -45,16 +47,11 @@ public class AssuntoController {
 				model.addAttribute("assunto", assunto);
 	            return "formCadastroAssunto";
 			}
-			
-			//Zerar id no salvamento de um novo cadastro
-	        if (assunto.getId() != null && assunto.getId().isEmpty()) {
-	        	assunto.setId(null);
-	        }
-			
-			boolean novoCadastro = (assunto.getId() == null || assunto.getId().isEmpty());
+
+			String statusId = assunto.getId(); //Pega o status do Id
 			assuntoServices.salvar(assunto);
 
-			if(novoCadastro) {
+			if(statusId == null || statusId.isEmpty()) {
 		        redirectAttrs.addFlashAttribute("mensagem", "Assunto cadastrado com sucesso!");
 		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");		
 			}else {
@@ -63,10 +60,10 @@ public class AssuntoController {
 			}
 
 		}catch (ErroBancoException erro) {
-		    redirectAttrs.addFlashAttribute("mensagem", erro);
+		    redirectAttrs.addFlashAttribute("mensagem", erro.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
         }  catch(Exception erro) {
-            redirectAttrs.addFlashAttribute("mensagem", erro);
+            redirectAttrs.addFlashAttribute("mensagem", erro.getMessage());
             redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}
 
@@ -86,16 +83,19 @@ public class AssuntoController {
 	    return listaAssunto;	   
 	}
 		
-    @PostMapping("/excluir/{id}")
-    public String excluir(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/excluir")
+    public String excluir(@RequestParam String id, RedirectAttributes redirectAttributes) {
         try {
         	assuntoServices.excluir(id);
             redirectAttributes.addFlashAttribute("mensagem", "O assunto foi excluído com sucesso!");
             redirectAttributes.addFlashAttribute("tipoMensagem", "success");
-        } catch (Exception e) {
+        } catch (DadoVinculadoException e) {
+	        redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
+	        redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
+	    }  catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o assunto.");
             redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
         }
-        return "redirect:/assunto/consultar";
+        return "redirect:/assunto/cadastrar";
     }
 }

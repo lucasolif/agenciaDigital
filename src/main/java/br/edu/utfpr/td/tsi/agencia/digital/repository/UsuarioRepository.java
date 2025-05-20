@@ -9,5 +9,8 @@ import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
 public interface UsuarioRepository extends MongoRepository<Usuario, String>{
 	
 	Optional<Usuario> findByUsername(String username);
+	
     List<Usuario> findByNomeOrUsernameContainingIgnoreCase(String nome, String username);
+    
+    boolean existsByUsername(String username);
 }

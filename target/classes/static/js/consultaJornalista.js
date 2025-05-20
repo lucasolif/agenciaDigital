@@ -65,6 +65,54 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBuscarJornalista"));
     modal.hide();
   });
+  
+  document.getElementById("btnExcluir").addEventListener("click", function() {
+    const form = document.querySelector("form[action*='/jornalista/cadastrar']");
+    const idField = form.querySelector("input[name='id']");
+    
+    if (!idField || !idField.value) {
+      alert("Selecione um jornalista antes de excluir.");
+      return;
+    }
+
+    if (!confirm("Tem certeza que deseja excluir este jornalista?")) {
+      return;
+    }
+
+    // Muda ação e método para exclusão
+    form.action = "/agenciaDigital/jornalista/excluir";
+    form.method = "post";
+
+    let methodInput = form.querySelector("input[name='_method']");
+    if (!methodInput) {
+      methodInput = document.createElement("input");
+      methodInput.type = "hidden";
+      methodInput.name = "_method";
+      form.appendChild(methodInput);
+    }
+    methodInput.value = "delete";
+
+    form.submit();
+  });
+  
+  //Limpa dos dados quando fechado
+  const limparModal = document.getElementById("modalBuscarJornalista");
+
+  if (limparModal) {
+    limparModal.addEventListener('hidden.bs.modal', function () {
+      // Limpa campo de busca
+      const inputBusca = document.getElementById("inputBusca");
+      if (inputBusca) inputBusca.value = "";
+
+      // Limpa resultados
+      const resultsTable = document.getElementById("resultadoBusca");
+      if (resultsTable) resultsTable.innerHTML = "";
+
+      // Limpa objeto selecionado
+      jornalistaSelecionado = null;
+    });
+  }
+  
 });
 
 // Função para preencher os campos do formulário com o jornalista selecionado

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +20,7 @@ import com.mongodb.MongoException;
 import br.edu.utfpr.td.tsi.agencia.digital.dto.UsuarioDTO;
 import br.edu.utfpr.td.tsi.agencia.digital.dto.UsuarioDTOConsulta;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
+import br.edu.utfpr.td.tsi.agencia.digital.exception.UsuarioAdministradorException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
 import br.edu.utfpr.td.tsi.agencia.digital.services.UsuarioServices;
 import jakarta.validation.Valid;
@@ -52,11 +52,9 @@ public class UsuarioController {
         }
     	
     	try {    
-            boolean novoCadastro = (usuarioDTO.getId() == null || usuarioDTO.getId().isEmpty()); 
-
             usuarioService.salvar(usuarioDTO);
 
-            if(novoCadastro) {
+            if(usuarioDTO.getId() == null || usuarioDTO.getId().isEmpty()) {
     	        redirectAttrs.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso!");
     	        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
             }else {
@@ -64,13 +62,13 @@ public class UsuarioController {
     	        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
             }
         } catch (DadosDuplicadosException error) {
-		    redirectAttrs.addFlashAttribute("mensagem", error);
+		    redirectAttrs.addFlashAttribute("mensagem", error.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}catch (MongoException error) {
-		    redirectAttrs.addFlashAttribute("mensagem", error);
+		    redirectAttrs.addFlashAttribute("mensagem", error.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
         }  catch(Exception error) {
-            redirectAttrs.addFlashAttribute("mensagem", error);
+            redirectAttrs.addFlashAttribute("mensagem", error.getMessage());
             redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}
 
@@ -100,16 +98,19 @@ public class UsuarioController {
 	        .collect(Collectors.toList());
     }
 	
-    @PostMapping("/excluir/{id}")
-    public String excluir(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/excluir")
+    public String excluir(@RequestParam String id, @RequestParam String username, RedirectAttributes redirectAttributes) {
         try {
-        	usuarioService.excluir(id);
+        	usuarioService.excluir(id, username);
             redirectAttributes.addFlashAttribute("mensagem", "Usuário excluído com sucesso!");
             redirectAttributes.addFlashAttribute("tipoMensagem", "success");
-        } catch (Exception e) {
+        } catch (UsuarioAdministradorException e) {
+	        redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
+	        redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
+	    }   catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o usuário.");
             redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
         }
-        return "redirect:/usuario/consultar";
+        return "redirect:/usuario/cadastrar";
     }
 }

@@ -70,7 +70,7 @@
 	           	<div class="row mb-3">
 	                <div class="col-md-6">
 	                    <label class="form-label">Descrição Reportagem</label>
-	                    <textarea id="descricao" class="form-control" rows="4"></textarea>
+	                    <textarea id="descricao" th:field="*{descricao}" class="form-control" rows="4"></textarea>
 	                    <div class="text-danger" th:errors="*{descricao}"></div>
 	                </div>
 	                <div class="col-md-3">

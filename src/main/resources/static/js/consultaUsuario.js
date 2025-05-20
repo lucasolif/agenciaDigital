@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${j.nome}</td>
                 <td>${j.username}</td>
                 <td>${j.email}</td>
+				<td>${j.status ? "Ativo" : "Inativo"}</td>
               `;
 
               // Clique na linha para selecionar
@@ -65,6 +66,55 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBuscarUsuario"));
     modal.hide();
   });
+  
+  //Botão de excluir
+  document.getElementById("btnExcluir").addEventListener("click", function() {
+     const form = document.querySelector("form[action*='/usuario/cadastrar']");
+     const idField = form.querySelector("input[name='id']");
+     
+     if (!idField || !idField.value) {
+       alert("Selecione um usuário antes de excluir.");
+       return;
+     }
+
+     if (!confirm("Tem certeza que deseja excluir este usuário?")) {
+       return;
+     }
+
+     // Muda ação e método para exclusão
+     form.action = "/agenciaDigital/usuario/excluir";
+     form.method = "post";
+
+     let methodInput = form.querySelector("input[name='_method']");
+     if (!methodInput) {
+       methodInput = document.createElement("input");
+       methodInput.type = "hidden";
+       methodInput.name = "_method";
+       form.appendChild(methodInput);
+     }
+     methodInput.value = "delete";
+
+     form.submit();
+   }); 
+  
+  //Limpa dos dados quando fechado
+  const limparModal = document.getElementById("modalBuscarUsuario");
+
+  if (limparModal) {
+    limparModal.addEventListener('hidden.bs.modal', function () {
+      // Limpa campo de busca
+      const inputBusca = document.getElementById("inputBusca");
+      if (inputBusca) inputBusca.value = "";
+
+      // Limpa resultados
+      const resultsTable = document.getElementById("resultadoBusca");
+      if (resultsTable) resultsTable.innerHTML = "";
+
+      // Limpa objeto selecionado
+      usuarioSelecionado = null;
+    });
+  }
+  
 });
 
 // Função para preencher os campos do formulário com o jornalista selecionado
@@ -74,5 +124,7 @@ function selecionarUsuario(usuario) {
   document.querySelector("[name='celular']").value = usuario.celular || "";
   document.querySelector("[name='email']").value = usuario.email || "";
   document.querySelector("[name='username']").value = usuario.username || "";
+  
+  document.querySelector("[name='status']").checked = usuario.status || false;
  }
 

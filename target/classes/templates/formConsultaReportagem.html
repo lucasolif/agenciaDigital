@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar Reportagens</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">   
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/consulta.css}">
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
+  	<script th:src="@{/js/buscarJornalista.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/modalConsulta.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+    
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <div th:if="${mensagem}" class="alert alert-dismissible fade show" th:classappend="' alert-' + ${tipoMensagem}" role="alert">
+                <span th:text="${mensagem}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <h4 class="mb-4">Consulta de Reportagens</h4>
+
+			<form th:action="@{/reportagem/consultar}" method="get" class="mb-4">
+					  
+			    <div class="row mb-3 mt-5">
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">Jornalista</label>
+							<div class="input-group">
+								<input type="text" name="jornalista" id="jornalistaNome" class="form-control" placeholder="Clique na lupa para buscar o jornalista" readonly />
+								<button class="btn btn-buscar" type="button" id="btnBuscarJornalista" data-bs-toggle="modal" data-bs-target="#modalBuscarJornalista" aria-label="Buscar Jornalista">
+									<i class="bi bi-search"></i>
+								</button>
+							</div>
+							
+						</div>
+						<input type="hidden" name="jornalistaId" id="jornalistaId" />
+					</div>
+			
+			        <div class="col-md-4">
+			            <label class="form-label">Assuntos</label>
+			            <select class="form-select" name="assuntoId">
+							<option value="" th:selected="${assuntoId == null}">Todos</option>
+							<option th:each="assunto : ${assuntos}"
+							        th:value="${assunto.id}"
+							        th:text="${assunto.nome}"
+							        th:selected="${assunto.id == assuntoId}">
+							</option>
+			            </select>
+			        </div>
+			
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+							<option value="" th:selected="${status == null}">Todos</option>
+							<option value="Em Produção" th:selected="${status == 'Em Produção'}">Em Produção</option>
+							<option value="Publicada" th:selected="${status == 'Publicada'}">Publicada</option>
+							<option value="Cancelada" th:selected="${status == 'Cancelada'}">Cancelada</option>
+                        </select>
+                    </div>
+			    </div>
+			
+			    <div class="row mb-3">
+			        <div class="col-md-4 d-flex align-items-end justify-content-end">
+			            <button type="submit" class="btn btn-primary">Filtrar</button>
+			        </div>
+			    </div>
+			</form>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Título</th>
+                            <th>Jornalista</th>
+                            <th>Status</th>
+                            <th>Assuntos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="report : ${reportagensDto}">
+                            <td th:text="${report.titulo}">Título</td>
+                            <td th:text="${report.jornalista.nome}">Jornalista</td>                       
+                            <td th:text="${report.status}">Status</td>
+                            <td th:text="${report.assuntosString}">Assunto</td>   
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(reportagensDto)}">
+                            <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/modalJornalista :: modalBuscarJornalista}"></div>
+
+</body>
+</html>

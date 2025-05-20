@@ -27,7 +27,6 @@ public class Reportagem {
     @NotNull(message = "Campo obrigatório")
     private Jornalista jornalista;
     
-    @DBRef
     @Field("Assuntos")
     @NotEmpty(message = "Escolha um ou mais assunto")
     private List<Assunto> assuntos;
@@ -40,9 +39,7 @@ public class Reportagem {
     private String status;
     
     @Field("DataCadastro")
-    private LocalDate dataCadastro;
-
-    
+    private LocalDate dataCadastro;   
     
 	public String getId() {
 		return id;
@@ -80,14 +77,6 @@ public class Reportagem {
 		this.titulo = titulo;
 	}
 
-	public void setJornalista(Jornalista jornalista) {
-		this.jornalista = jornalista;
-	}
-
-	public void setAssuntos(List<Assunto> assuntos) {
-		this.assuntos = assuntos;
-	}
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
@@ -98,6 +87,14 @@ public class Reportagem {
 
 	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public void setJornalista(Jornalista jornalista) {
+		this.jornalista = jornalista;
+	}
+
+	public void setAssuntos(List<Assunto> assuntos) {
+		this.assuntos = assuntos;
 	}
 
 }

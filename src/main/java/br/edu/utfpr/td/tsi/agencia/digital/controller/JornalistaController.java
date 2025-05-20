@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mongodb.MongoException;
 
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
+import br.edu.utfpr.td.tsi.agencia.digital.exception.DadoVinculadoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
 import br.edu.utfpr.td.tsi.agencia.digital.services.JornalistaServices;
 import jakarta.validation.Valid;
@@ -48,16 +48,10 @@ public class JornalistaController {
 				model.addAttribute("jornalista", jornalista);
 	            return "formCadastroJornalista";
 			}
-			
-			//Zerar id no salvamento de um novo cadastro
-	        if (jornalista.getId() != null && jornalista.getId().isEmpty()) {
-	            jornalista.setId(null);	           
-	        }
-	        
-			boolean novoCadastro = (jornalista.getId() == null);	
+			      	
 			jornalistaService.salvar(jornalista);
 			
-			if(novoCadastro){
+			if(jornalista.getId() == null || jornalista.getId().isEmpty()){
 	        redirectAttrs.addFlashAttribute("mensagem", "Jornalista cadastrado(a) com sucesso!");
 		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
 			}else {
@@ -66,10 +60,10 @@ public class JornalistaController {
 			}
 
 		}catch (DadosDuplicadosException e) {
-		    redirectAttrs.addFlashAttribute("mensagem", "Algum dado inserido já pertence a outro jornalista");
+		    redirectAttrs.addFlashAttribute("mensagem", e.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}catch (MongoException e) {
-		    redirectAttrs.addFlashAttribute("mensagem", "Erro ao acessar o banco de dados.");
+		    redirectAttrs.addFlashAttribute("mensagem", e.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
         }  catch(Exception e) {
             redirectAttrs.addFlashAttribute("mensagem", "Erro inesperado: " + e.getMessage());
@@ -80,18 +74,21 @@ public class JornalistaController {
 
 	}
 	
-    @PostMapping("/excluir/{id}")
-    public String excluir(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
-        try {
-        	jornalistaService.excluir(id);
-            redirectAttributes.addFlashAttribute("mensagem", "Jornalista excluído(a) com sucesso!");
-            redirectAttributes.addFlashAttribute("tipoMensagem", "success");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o(a) jornalista.");
-            redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
-        }
-        return "redirect:/jornalista/cadastrar";
-    }
+	@PostMapping("/excluir")
+	public String excluir(@RequestParam String id, RedirectAttributes redirectAttributes) {
+		try {
+	        jornalistaService.excluir(id);
+	        redirectAttributes.addFlashAttribute("mensagem", "Jornalista excluído(a) com sucesso!");
+	        redirectAttributes.addFlashAttribute("tipoMensagem", "success");
+	    } catch (DadoVinculadoException e) {
+	        redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
+	        redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
+	    }  catch (Exception e) {
+	        redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o(a) jornalista.");
+	        redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
+	    }
+	    return "redirect:/jornalista/cadastrar";
+	}
     
     @GetMapping("/consultar")
     @ResponseBody

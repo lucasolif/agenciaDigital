@@ -20,11 +20,15 @@ public class CustomUserDetailsServices implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
+        if (!Boolean.TRUE.equals(usuario.isStatus())) {
+            throw new UsernameNotFoundException("Usuário inativo.");
+        }
+        
         return org.springframework.security.core.userdetails.User.builder()
-    		// Contrução do obejto User, com os dados do usário autenticado
+    		// Contrução do obejto User, com os dados do usuário autenticado
             .username(usuario.getUsername())
             .password(usuario.getPassword()) // já criptografada com BCrypt
-            .roles("USER") // aqui você pode adaptar com base no Cargo ou outro campo
+            .roles("USER")
             .build();
     }
 }

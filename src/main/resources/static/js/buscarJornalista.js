@@ -65,6 +65,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBuscarJornalista"));
     modal.hide();
   });
+  
+  //Limpa dos dados quando fechado
+  const limparModal = document.getElementById("modalBuscarJornalista");
+
+  if (limparModal) {
+    limparModal.addEventListener('hidden.bs.modal', function () {
+      // Limpa campo de busca
+      const inputBusca = document.getElementById("inputBusca");
+      if (inputBusca) inputBusca.value = "";
+
+      // Limpa resultados
+      const resultsTable = document.getElementById("resultadoBusca");
+      if (resultsTable) resultsTable.innerHTML = "";
+
+      // Limpa objeto selecionado
+      jornalistaSelecionado = null;
+    });
+  }
+  
 });
 
 // Função para preencher os campos do formulário com o jornalista selecionado

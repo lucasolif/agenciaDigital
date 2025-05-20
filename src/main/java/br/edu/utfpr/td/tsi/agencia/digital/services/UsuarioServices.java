@@ -13,6 +13,7 @@ import br.edu.utfpr.td.tsi.agencia.digital.dto.UsuarioDTO;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.SenhasDiferentesException;
+import br.edu.utfpr.td.tsi.agencia.digital.exception.UsuarioAdministradorException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
 import br.edu.utfpr.td.tsi.agencia.digital.repository.UsuarioRepository;
 
@@ -88,7 +89,12 @@ public class UsuarioServices {
         return usuarioRepository.findAll();
     }
 
-    public void excluir(String id) {
+    public void excluir(String id, String username) {
+
+    	if(username.equalsIgnoreCase("admin")) {
+    		throw new UsuarioAdministradorException("Não é possível excluir o usuario Admin.");
+    	}
+    	
         usuarioRepository.deleteById(id);
     }
 

@@ -16,6 +16,9 @@ public class Assunto {
     @NotBlank(message = "Campo obrigatório")
 	private String nome;
     
+    @Field("Status")
+    private boolean status;
+    
 
 	public String getId() {
 		return id;
@@ -32,5 +35,20 @@ public class Assunto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Assunto [nome=" + nome + "]";
+	}
+	
+	
 	
 }
