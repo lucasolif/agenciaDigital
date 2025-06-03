@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/agenciaDigital/inicio", true)
                 .permitAll()
-                .successHandler(successHandler) //Para obter os dados de login, informado no formulário
+                .successHandler(successHandler) 
             )
             .logout(logout -> logout
                 .logoutUrl("/logout")

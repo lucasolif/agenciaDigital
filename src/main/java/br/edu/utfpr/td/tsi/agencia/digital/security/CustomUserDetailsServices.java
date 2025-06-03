@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.edu.utfpr.td.tsi.agencia.digital.exception.UsuarioInativoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
 import br.edu.utfpr.td.tsi.agencia.digital.repository.UsuarioRepository;
 
@@ -21,7 +22,8 @@ public class CustomUserDetailsServices implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         if (!Boolean.TRUE.equals(usuario.isStatus())) {
-            throw new UsernameNotFoundException("Usuário inativo.");
+        	System.out.println("Caiu aqui");
+            throw new UsuarioInativoException("Usuário inativo.");
         }
         
         return org.springframework.security.core.userdetails.User.builder()

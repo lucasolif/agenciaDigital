@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/agenciaDigital/assunto/consultar?filtro=${encodeURIComponent(filtro)}`)
           .then(response => response.json())
           .then(data => {
-            resultsTable.innerHTML = ""; // Limpa
+            resultsTable.innerHTML = ""; 
 
             data.forEach(j => {
               const row = document.createElement("tr");

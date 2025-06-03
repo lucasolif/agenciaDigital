@@ -64,36 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fecha o modal
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBuscarJornalista"));
     modal.hide();
-  });
-  
-  document.getElementById("btnExcluir").addEventListener("click", function() {
-    const form = document.querySelector("form[action*='/jornalista/cadastrar']");
-    const idField = form.querySelector("input[name='id']");
-    
-    if (!idField || !idField.value) {
-      alert("Selecione um jornalista antes de excluir.");
-      return;
-    }
-
-    if (!confirm("Tem certeza que deseja excluir este jornalista?")) {
-      return;
-    }
-
-    // Muda ação e método para exclusão
-    form.action = "/agenciaDigital/jornalista/excluir";
-    form.method = "post";
-
-    let methodInput = form.querySelector("input[name='_method']");
-    if (!methodInput) {
-      methodInput = document.createElement("input");
-      methodInput.type = "hidden";
-      methodInput.name = "_method";
-      form.appendChild(methodInput);
-    }
-    methodInput.value = "delete";
-
-    form.submit();
-  });
+  }); 
   
   //Limpa dos dados quando fechado
   const limparModal = document.getElementById("modalBuscarJornalista");

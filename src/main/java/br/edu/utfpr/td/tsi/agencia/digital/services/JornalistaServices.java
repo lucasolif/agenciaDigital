@@ -2,13 +2,12 @@ package br.edu.utfpr.td.tsi.agencia.digital.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
-import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadoVinculadoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
 import br.edu.utfpr.td.tsi.agencia.digital.repository.JornalistaRepository;
@@ -24,16 +23,12 @@ public class JornalistaServices {
 	private ReportagemRepository reportagemRepository;
 
     public Jornalista salvar(Jornalista jornalista) {
-    	try {		
-    		if(jornalista.getId() != null && jornalista.getId().isEmpty()){
-    			jornalista.setId(null);
-    		}
-    		return jornalistaRepository.save(jornalista);	
-    	} catch (DadosDuplicadosException e) {
-            throw new DadosDuplicadosException("CPF, Email ou telefone já está em uso por outro jornalista.");      
-        } catch (ErroBancoException e) {
-            throw new ErroBancoException("Erro ao salvar no banco");
-        }   
+   		
+		if(jornalista.getId() != null && jornalista.getId().isEmpty()){
+			jornalista.setId(UUID.randomUUID().toString());
+		}
+		return jornalistaRepository.save(jornalista);	
+
     }
 
     public Optional<Jornalista> buscarPorId(String id) {

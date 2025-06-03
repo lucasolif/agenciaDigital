@@ -13,4 +13,6 @@ public interface ReportagemRepository extends MongoRepository<Reportagem, String
     
     @Query(value = "{ 'Assuntos._id': ?0 }", exists = true)
     boolean existsByAssuntosId(ObjectId assuntoId);
+    
+    String findStatusById(String id);
 }

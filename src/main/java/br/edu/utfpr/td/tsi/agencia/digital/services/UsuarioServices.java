@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.MongoException;
-
 import br.edu.utfpr.td.tsi.agencia.digital.dto.UsuarioDTO;
-import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
-import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.SenhasDiferentesException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.UsuarioAdministradorException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Usuario;
@@ -30,51 +26,42 @@ public class UsuarioServices {
     public Usuario salvar(UsuarioDTO usuarioDto) {
     	
     	Usuario usuario;
-    	
-    	try{   		
-    		//Alteração do usuário
-			if(usuarioDto.getId() != null && !usuarioDto.getId().isEmpty()) {
-				
-    			usuario = usuarioRepository.findById(usuarioDto.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+		
+		//Alteração do usuário
+		if(usuarioDto.getId() != null && !usuarioDto.getId().isEmpty()) {
+			
+			usuario = usuarioRepository.findById(usuarioDto.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+		
+			usuario.setCelular(usuarioDto.getCelular());
+			usuario.setEmail(usuarioDto.getEmail());
+			usuario.setNome(usuarioDto.getNome());
+			usuario.setStatus(usuarioDto.isStatus());
+			usuario.setUsername(usuarioDto.getUsername());
     		
-    			usuario.setCelular(usuarioDto.getCelular());
-    			usuario.setEmail(usuarioDto.getEmail());
-    			usuario.setNome(usuarioDto.getNome());
-    			usuario.setStatus(usuarioDto.isStatus());
-    			usuario.setUsername(usuarioDto.getUsername());
-	    		
-	    	} else {
-	    		//Novo usuário
-	            usuario = new Usuario();
-	            usuario.setNome(usuarioDto.getNome());
-	            usuario.setCelular(usuarioDto.getCelular());
-	            usuario.setEmail(usuarioDto.getEmail());
-	            usuario.setUsername(usuarioDto.getUsername());
-	            usuario.setStatus(usuarioDto.isStatus());
+    	} else {
+    		//Novo usuário
+            usuario = new Usuario();
+            usuario.setNome(usuarioDto.getNome());
+            usuario.setCelular(usuarioDto.getCelular());
+            usuario.setEmail(usuarioDto.getEmail());
+            usuario.setUsername(usuarioDto.getUsername());
+            usuario.setStatus(usuarioDto.isStatus());
 
-	            // Senha obrigatória no cadastro
-	            if (usuarioDto.getPassword() == null || usuarioDto.getPassword().isEmpty()) {
-	                throw new IllegalArgumentException("Senha é obrigatória para novo usuário.");
-	            }
-	            
-	            // Verifica se as senhas coincidem
-	            if (!usuarioDto.getPassword().equals(usuarioDto.getConfirmarSenha())) {
-	                throw new SenhasDiferentesException("As senhas não coincidem.");
-	            }
+            // Senha obrigatória no cadastro
+            if (usuarioDto.getPassword() == null || usuarioDto.getPassword().isEmpty()) {
+                throw new IllegalArgumentException("Senha é obrigatória para novo usuário.");
+            }
+            
+            // Verifica se as senhas coincidem
+            if (!usuarioDto.getPassword().equals(usuarioDto.getConfirmarSenha())) {
+                throw new SenhasDiferentesException("As senhas não coincidem.");
+            }
 
-	            usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
-	        }
+            usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
+        }
 
-	        return usuarioRepository.save(usuario);
-    		
-    	} catch (DadosDuplicadosException e) {		
-    		throw new DadosDuplicadosException("Já existe um usuário com esse Login");    
-        } catch (MongoException e) {
-            throw new ErroBancoException("Erro ao salvar no banco");
-        } catch(Exception e) {
-        	throw new RuntimeException("Erro inespertado"+e);
-		}   
-        
+        return usuarioRepository.save(usuario);
+     
     }
 
     public Optional<Usuario> buscarPorId(String id) {
