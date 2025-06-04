@@ -2,7 +2,6 @@
 📖 **DESCRIÇÃO**
 
 O Agência Digital é um sistema web para fins acadêmico, desenvolvido para gerenciamento de uma agência de notícias. O sistema permite realizar operações de CRUD (Criar, Ler, Atualizar, Deletar) para jornalistas, usuários, assuntos e reportagens. Ele também inclui uma tela de login com autenticação, consultas dinâmicas e edição de dados cadastrados.
-
 <br><br>
 
 🎯 **FUNCIONALIDADES**
@@ -14,7 +13,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 - Filtros e consultas por múltiplos critérios.
 - Interface web moderna e responsiva.
 - Segurança básica de acesso.
-
 <br><br>
 
 🛠️ **TECNOLOGIAS UTILIZADAS**
@@ -26,7 +24,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 - Maven para gerenciamento de dependências.
 - JAVAX para algumas funções do front-end.
 - Spring Security.
-
  <br><br>
 
 🚀 **COMO EXECUTAR O PROJETO**
@@ -35,7 +32,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 - Altere o arquivo "application.properties" adicionando as configurações do seu banco de dados.
 - Abra o CMD e execute o arquivo "agenciaDigital.JAR", que se encontra na raiz do projeto.
 - URL para abrir: http://localhost:8080/agenciaDigital/login
-
  <br><br>
 
 🔑 **EFETUAR LOGIN**
@@ -43,7 +39,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 Ao executar a aplicação, automaticamente será criado um usuário com os seguintes dados<br>
 - **Login:** admin
 - **Senha:** admin@123
-
  <br><br>
 
 👀 **OBSERVAÇÕES**
