@@ -13,33 +13,31 @@ document.addEventListener("DOMContentLoaded", function () {
           .then(data => {
             resultsTable.innerHTML = ""; 
 
-            data.forEach(j => {
-              const row = document.createElement("tr");
-              row.classList.add("clicavel");
-              row.innerHTML = `
-			  	<td>${j.nome}</td>
-				<td>${j.status ? "Ativo" : "Inativo"}</td>
+			data.forEach(j => {
+			  const row = document.createElement("tr");
+			  row.classList.add("clicavel");
+			  row.classList.add("no-select"); // evita seleção de texto
+			  row.innerHTML = `
+			    <td>${j.nome}</td>
+			    <td>${j.status ? "Ativo" : "Inativo"}</td>
 			  `;
 
-              // Clique na linha para selecionar
-              row.addEventListener("click", () => {
-                // Verifica se a linha já está selecionada
-                if (!row.classList.contains("selecionada")) {
-                  // Remove seleção anterior
-                  resultsTable.querySelectorAll("tr.selecionada").forEach(r => r.classList.remove("selecionada"));
-                  // Adiciona a classe de seleção à linha clicada
-                  row.classList.add("selecionada");
-                  // Atualiza o objeto do usuário selecionado
-                  assuntoSelecionado = j;
-                } else {
-                  // Se a linha já estiver selecionada, desmarque-a
-                  row.classList.remove("selecionada");
-                  assuntoSelecionado = null;
-                }
-              });
+			  row.addEventListener("click", () => {
+			    const isSelected = row.classList.contains("table-active");
 
-              resultsTable.appendChild(row);
-            });
+			    // Remove seleção de todas as linhas
+			    resultsTable.querySelectorAll("tr.table-active").forEach(r => r.classList.remove("table-active"));
+
+			    if (!isSelected) {
+			      row.classList.add("table-active");
+			      assuntoSelecionado = j;
+			    } else {
+			      assuntoSelecionado = null;
+			    }
+			  });
+
+			  resultsTable.appendChild(row);
+			});
 
             // Limpa seleção ao refazer busca
             assuntoSelecionado = null;
@@ -57,9 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Por favor, selecione um assunto antes de escolher.");
       return;
     }
-
     selecionarAssunto(assuntoSelecionado);
-
     // Fecha o modal
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalBusca"));
     modal.hide();

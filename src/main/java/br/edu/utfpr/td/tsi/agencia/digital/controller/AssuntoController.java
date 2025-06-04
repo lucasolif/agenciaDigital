@@ -48,10 +48,9 @@ public class AssuntoController {
 	            return "formCadastroAssunto";
 			}
 
-			String statusId = assunto.getId(); //Pega o status do Id
 			assuntoServices.salvar(assunto);
 
-			if(statusId == null || statusId.isEmpty()) {
+			if(assunto.getId() == null || assunto.getId().isEmpty()) {
 		        redirectAttrs.addFlashAttribute("mensagem", "Assunto cadastrado com sucesso!");
 		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");		
 			}else {

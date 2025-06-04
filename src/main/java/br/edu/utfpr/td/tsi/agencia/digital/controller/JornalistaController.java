@@ -51,13 +51,8 @@ public class JornalistaController {
 			      	
 			jornalistaService.salvar(jornalista);
 			
-			if(jornalista.getId() == null || jornalista.getId().isEmpty()){
-	        redirectAttrs.addFlashAttribute("mensagem", "Jornalista cadastrado(a) com sucesso!");
-		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
-			}else {
-		        redirectAttrs.addFlashAttribute("mensagem", "Jornalista alterado(a) com sucesso!");
-		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");	
-			}
+	        redirectAttrs.addFlashAttribute("mensagem", "Jornalista cadastrado/alterado com sucesso!");
+	        redirectAttrs.addFlashAttribute("tipoMensagem", "success");			
 
 		}catch (DadosDuplicadosException e) {
 		    redirectAttrs.addFlashAttribute("mensagem", e.getMessage());

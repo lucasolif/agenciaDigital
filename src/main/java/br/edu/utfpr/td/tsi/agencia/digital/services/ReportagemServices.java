@@ -51,6 +51,17 @@ public class ReportagemServices {
     public Optional<Reportagem> buscarPorId(String id) {
         return reportagemRepository.findById(id);
     }
+    
+    public Reportagem consultarReportagemId(String id) {
+    	
+    	Reportagem reportagem = reportagemRepository.findById(id).orElse(null);
+    	
+    	if(reportagem.getStatus().equalsIgnoreCase("em produção")) {
+    		return reportagem;
+    	}else {
+    		throw new StatusReportagemException("Só é permitido alterar reportagem com status 'Em Produção'.");
+    	}
+    }
 
     public List<Reportagem> listar() {
         return reportagemRepository.findAll();
@@ -58,9 +69,9 @@ public class ReportagemServices {
 
     public void excluir(String id) {
     	
-    	String status = reportagemRepository.findStatusById(id);
-    	
-    	if(status.equalsIgnoreCase("em produção")) {
+    	Reportagem reportagem = reportagemRepository.findById(id).orElse(null);
+    	  	
+    	if(reportagem.getStatus().equalsIgnoreCase("Em produção")) {
     		reportagemRepository.deleteById(id);
     	}else {
     		throw new StatusReportagemException("Só é permitido excluir reportagem com status 'Em Produção'.");

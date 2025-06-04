@@ -14,6 +14,7 @@
 	<link rel="stylesheet" th:href="@{/css/modalConsulta.css}">
   	<script th:src="@{/js/buscarJornalista.js}"></script>
   	<script th:src="@{/js/exclusaoReportagem.js}"></script>
+  	<script th:src="@{/js/alterarReportagem.js}"></script>
 </head>
 <body>
 
@@ -78,7 +79,7 @@
 				</form>
 	
 	            <div class="table-responsive">
-	                <table class="table table-striped table-hover table-bordered align-middle">
+	                <table class="table table-striped table-bordered align-middle">
 	                    <thead class="table-primary">
 	                        <tr>
 	                            <th>Título</th>
@@ -104,7 +105,7 @@
 	           	<div class="row mb-3 mt-4">
 	            	<div class="col-md-7"></div>
 	                <div class="col-md-5 text-end">
-	                	<button type="submit" class="btn btn-warning">Alterar</button>         
+	                	<button type="submit" class="btn btn-warning" id="btnAlterar">Alterar</button>         
 						<button type="button" class="btn btn-danger" id="btnExcluir">Excluir</button>                      
 	               	</div>
 	            </div>

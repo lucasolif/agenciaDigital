@@ -38,7 +38,7 @@
 					<div class="col-md-6">
 						<label class="form-label">Jornalista<span class="text-danger">*</span></label>
 						<div class="input-group">
-							<input type="text" name="jornalista" id="jornalistaNome" class="form-control" placeholder="Clique na lupa para buscar o jornalista" readonly />
+							<input type="text" th:value="*{jornalista?.nome}" name="jornalista" id="jornalistaNome" class="form-control" placeholder="Clique na lupa para buscar o jornalista" readonly />
 							<button class="btn btn-buscar" type="button" id="btnBuscarJornalista" data-bs-toggle="modal" data-bs-target="#modalBuscarJornalista" aria-label="Buscar Jornalista">
 								<i class="bi bi-search"></i>
 							</button>
@@ -51,12 +51,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Título da Reportagem<span class="text-danger">*</span></label>
-                        <input type="text" name="titulo" class="form-control" required/>
+                        <input type="text" th:field="*{titulo}" name="titulo" class="form-control" required/>
                         <div class="text-danger" th:errors="*{titulo}"></div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Status</label>
-                        <select name="status" class="form-select" required>
+                        <select th:field="*{status}" name="status" class="form-select" required>
                             <option value="Em Produção">Em Produção</option>
                             <option value="Publicada">Publicada</option>
                             <option value="Cancelada">Cancelada</option>

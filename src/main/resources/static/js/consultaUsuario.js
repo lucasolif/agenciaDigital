@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             data.forEach(j => {
               const row = document.createElement("tr");
-              row.classList.add("clicavel");
+			  row.classList.add("clicavel");
+			  row.classList.add("no-select"); // evita seleção de texto
               row.innerHTML = `
                 <td>${j.nome}</td>
                 <td>${j.username}</td>
@@ -24,21 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
               `;
 
               // Clique na linha para selecionar
-              row.addEventListener("click", () => {
-                // Verifica se a linha já está selecionada
-                if (!row.classList.contains("selecionada")) {
-                  // Remove seleção anterior
-                  resultsTable.querySelectorAll("tr.selecionada").forEach(r => r.classList.remove("selecionada"));
-                  // Adiciona a classe de seleção à linha clicada
-                  row.classList.add("selecionada");
-                  // Atualiza o objeto do usuário selecionado
-                  usuarioSelecionado = j;
-                } else {
-                  // Se a linha já estiver selecionada, desmarque-a
-                  row.classList.remove("selecionada");
-                  usuarioSelecionado = null;
-                }
-              });
+			  row.addEventListener("click", () => {
+			    const isSelected = row.classList.contains("table-active");
+
+			    // Remove seleção de todas as linhas
+			    resultsTable.querySelectorAll("tr.table-active").forEach(r => r.classList.remove("table-active"));
+
+			    if (!isSelected) {
+			      row.classList.add("table-active");
+			      usuarioSelecionado = j;
+			    } else {
+			      usuarioSelecionado = null;
+			    }
+			  });
 
               resultsTable.appendChild(row);
             });

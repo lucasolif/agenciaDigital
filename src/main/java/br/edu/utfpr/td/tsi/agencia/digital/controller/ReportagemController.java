@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,7 @@ public class ReportagemController {
     	
         model.addAttribute("reportagem", new Reportagem());
         model.addAttribute("assuntos", assuntoService.listarTodos());
+        
         return "formCadastroReportagem";    
     }
 
@@ -110,4 +112,44 @@ public class ReportagemController {
         }
         return "redirect:/reportagem/consultar";
     }
+    
+    @PostMapping("/alterar")
+    public String alterar(@RequestParam String id, RedirectAttributes redirectAttributes) {
+        try {      	
+            reportagemService.excluir(id);
+            redirectAttributes.addFlashAttribute("mensagem", "Reportagem excluída com sucesso!");
+            redirectAttributes.addFlashAttribute("tipoMensagem", "success");
+        }catch(StatusReportagemException e) {
+        	redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
+        	redirectAttributes.addFlashAttribute("tipoMensagem", "warning");	
+    	} catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir a reportagem.");
+            redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
+        }
+        return "redirect:/reportagem/consultar";
+    }
+    
+    @GetMapping("/editar/{id}")
+    public String editarReportagem(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
+
+        try {
+            Reportagem reportagem = reportagemService.consultarReportagemId(id);
+
+            model.addAttribute("reportagem", reportagem);
+            model.addAttribute("assuntos", assuntoService.listarTodos());
+            
+            return "formCadastroReportagem";
+
+        } catch (StatusReportagemException e) {
+            redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
+            redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
+            return "redirect:/reportagem/consultar";
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao carregar a reportagem para edição.");
+            redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
+            return "redirect:/reportagem/consultar";
+        }
+    }
+
 }

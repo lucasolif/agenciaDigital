@@ -22,10 +22,7 @@ public class ReportagemRepositoryImpl implements ReportagemRepositoryCustom {
 
     @Override
     public long countByJornalistaAndDataCadastroAndAssuntos(String jornalistaId, LocalDate dataCadastro, List<String> assuntoIds) {
-    	Query query = new Query(Criteria
-    		    .where("DataCadastro").is(dataCadastro)
-    		    .and("Assuntos._id").in(assuntoIds.stream().map(ObjectId::new).toList())
-    		);
+    	Query query = new Query(Criteria.where("DataCadastro").is(dataCadastro).and("Assuntos._id").in(assuntoIds.stream().map(ObjectId::new).toList()));
 
         return mongoTemplate.count(query, Reportagem.class);
     }

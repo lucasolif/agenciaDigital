@@ -10,3 +10,12 @@
     color: #fff;
     border-color: #bb86fc;
 }
+.table-active {
+    --bs-table-active-bg: #bb86fc; /* Cor da linha selecionada */
+    --bs-table-active-color: black; /* Cor do texto */
+}
+.no-select {
+    user-select: none;
+}
+
+
