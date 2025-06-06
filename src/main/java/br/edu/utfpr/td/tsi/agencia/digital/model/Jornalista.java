@@ -19,7 +19,6 @@ public class Jornalista {
     private String nome;
     
     @NotBlank(message = "Campo obrigatório")
-    @Indexed(unique = true)
     private String cpf;
     
     @NotNull(message = "Campo obrigatório")
@@ -31,13 +30,11 @@ public class Jornalista {
     private String sexo;
     
     @NotBlank(message = "Campo obrigatório")
-    @Indexed(unique = true)
     private String celular;
     
     private String telefone;
     
     @NotBlank(message = "Campo obrigatório")
-    @Indexed(unique = true)
     private String email;
     
     private boolean ativo;

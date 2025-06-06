@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,7 +21,7 @@ public class ReportagemRepositoryImpl implements ReportagemRepositoryCustom {
 
     @Override
     public long countByJornalistaAndDataCadastroAndAssuntos(String jornalistaId, LocalDate dataCadastro, List<String> assuntoIds) {
-    	Query query = new Query(Criteria.where("DataCadastro").is(dataCadastro).and("Assuntos._id").in(assuntoIds.stream().map(ObjectId::new).toList()));
+    	Query query = new Query(Criteria.where("jornalistaId").is(dataCadastro).and("Assuntos._id").in(assuntoIds));
 
         return mongoTemplate.count(query, Reportagem.class);
     }

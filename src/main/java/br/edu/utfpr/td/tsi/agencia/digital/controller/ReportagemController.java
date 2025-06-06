@@ -67,7 +67,7 @@ public class ReportagemController {
 	        redirectAttrs.addFlashAttribute("mensagem", e.getMessage());
 	        redirectAttrs.addFlashAttribute("tipoMensagem", "warning");	
     	}catch (Exception e) {
-    		redirectAttrs.addFlashAttribute("mensagem", "Erro ao tentar cadastrar/excluir reportagem.");
+    		redirectAttrs.addFlashAttribute("mensagem", "Erro ao tentar cadastrar/excluir reportagem."+e.getMessage());
     		redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 	    }
 
@@ -113,22 +113,6 @@ public class ReportagemController {
         return "redirect:/reportagem/consultar";
     }
     
-    @PostMapping("/alterar")
-    public String alterar(@RequestParam String id, RedirectAttributes redirectAttributes) {
-        try {      	
-            reportagemService.excluir(id);
-            redirectAttributes.addFlashAttribute("mensagem", "Reportagem excluída com sucesso!");
-            redirectAttributes.addFlashAttribute("tipoMensagem", "success");
-        }catch(StatusReportagemException e) {
-        	redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
-        	redirectAttributes.addFlashAttribute("tipoMensagem", "warning");	
-    	} catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir a reportagem.");
-            redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
-        }
-        return "redirect:/reportagem/consultar";
-    }
-    
     @GetMapping("/editar/{id}")
     public String editarReportagem(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
 
@@ -144,7 +128,6 @@ public class ReportagemController {
             redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
             redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
             return "redirect:/reportagem/consultar";
-
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagem", "Erro ao carregar a reportagem para edição.");
             redirectAttributes.addFlashAttribute("tipoMensagem", "danger");

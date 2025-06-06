@@ -2,19 +2,15 @@ package br.edu.utfpr.td.tsi.agencia.digital.repository;
 
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import br.edu.utfpr.td.tsi.agencia.digital.model.Reportagem;
 
 public interface ReportagemRepository extends MongoRepository<Reportagem, String>, ReportagemRepositoryCustom {
 	
-    @Query(value = "{ 'Jornalista.$id': ?0 }", exists = true)
-    boolean existsByJornalistaId(ObjectId jornalistaId);
+    boolean existsByJornalistaId(String jornalistaId);
     
-    @Query(value = "{ 'Assuntos._id': ?0 }", exists = true)
-    boolean existsByAssuntosId(ObjectId assuntoId);
+    boolean existsByAssuntosId(String assuntoId);
     
     Optional<Reportagem> findById(String id);
 }

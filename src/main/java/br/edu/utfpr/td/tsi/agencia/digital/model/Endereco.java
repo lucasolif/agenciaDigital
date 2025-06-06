@@ -18,6 +18,7 @@ public class Endereco {
     @NotBlank(message = "Campo obrigatório")
     private String cep;
     private String complemento;
+    
 
     public String getLogradouro() {
         return logradouro;

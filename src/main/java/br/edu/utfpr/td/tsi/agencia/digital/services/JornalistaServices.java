@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ public class JornalistaServices {
 			jornalista.setId(UUID.randomUUID().toString());
 		}
 		return jornalistaRepository.save(jornalista);	
-
     }
 
     public Optional<Jornalista> buscarPorId(String id) {
@@ -44,10 +42,9 @@ public class JornalistaServices {
     }
 
     public void excluir(String idJornalista) {
-    	
-    	ObjectId jornalistaId = new ObjectId(idJornalista);
-    	boolean existe =  reportagemRepository.existsByJornalistaId(jornalistaId);
-    	
+
+    	boolean existe =  reportagemRepository.existsByJornalistaId(idJornalista);
+
         if (existe) {
             throw new DadoVinculadoException("Não é possível excluir o(a) jornalista. Ele(a) está vinculado(a) a uma ou mais reportagens.");
         }

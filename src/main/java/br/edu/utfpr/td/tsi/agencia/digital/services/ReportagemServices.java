@@ -24,22 +24,18 @@ public class ReportagemServices {
 	
 	public Reportagem salvar(Reportagem reportagem) {
 
+		// Verifica se é alteração
         if (reportagem.getId() != null && !reportagem.getId().isEmpty()) {
             return reportagemRepository.save(reportagem);
         } else {
-            List<String> listaIdAssunto = reportagem.getAssuntos()
-                .stream()
-                .map(Assunto::getId)
-                .toList(); 
-
+            List<String> listaIdAssunto = reportagem.getAssuntos().stream().map(Assunto::getId).toList(); 
             String jornalistaId = reportagem.getJornalista().getId();
-            LocalDate dataCadastro = LocalDate.now();
-
-            long qtdReportagem = reportagemRepository.countByJornalistaAndDataCadastroAndAssuntos(jornalistaId, dataCadastro, listaIdAssunto);
             
+            long qtdReportagem = reportagemRepository.countByJornalistaAndDataCadastroAndAssuntos(jornalistaId, LocalDate.now(), listaIdAssunto);
+
             if (qtdReportagem < 2) {
                 reportagem.setId(UUID.randomUUID().toString());
-                reportagem.setDataCadastro(dataCadastro);
+                reportagem.setDataCadastro(LocalDate.now());
                 return reportagemRepository.save(reportagem);
             } else {
                 throw new CotaReportagemException("Você possui 2 reportagens com os assuntos escolhidos, cadastradas hoje.");

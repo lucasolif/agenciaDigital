@@ -20,8 +20,6 @@ import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.services.AssuntoServices;
 import jakarta.validation.Valid;
 
-
-
 @Controller
 @RequestMapping("/assunto")
 public class AssuntoController {
@@ -57,11 +55,10 @@ public class AssuntoController {
 		        redirectAttrs.addFlashAttribute("mensagem", "Assunto alterado com sucesso!");
 		        redirectAttrs.addFlashAttribute("tipoMensagem", "success");		
 			}
-
 		}catch (ErroBancoException erro) {
 		    redirectAttrs.addFlashAttribute("mensagem", erro.getMessage());
 		    redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
-        }  catch(Exception erro) {
+        }catch(Exception erro) {
             redirectAttrs.addFlashAttribute("mensagem", erro.getMessage());
             redirectAttrs.addFlashAttribute("tipoMensagem", "danger");
 		}

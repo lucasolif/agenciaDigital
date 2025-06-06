@@ -69,6 +69,18 @@ public class JornalistaController {
 
 	}
 	
+    @GetMapping("/consultar")
+    @ResponseBody
+    public List<Jornalista> buscarJornalistas(@RequestParam(name = "filtro") String filtro) {
+        List<Jornalista> listaPessoas = null;
+
+        if (filtro != null && !filtro.isEmpty()) {
+        	listaPessoas = jornalistaService.buscarNome(filtro);          
+        }
+
+        return listaPessoas;
+    }
+	
 	@PostMapping("/excluir")
 	public String excluir(@RequestParam String id, RedirectAttributes redirectAttributes) {
 		try {
@@ -79,22 +91,10 @@ public class JornalistaController {
 	        redirectAttributes.addFlashAttribute("mensagem", e.getMessage());
 	        redirectAttributes.addFlashAttribute("tipoMensagem", "warning");
 	    }  catch (Exception e) {
-	        redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o(a) jornalista.");
+	        redirectAttributes.addFlashAttribute("mensagem", "Erro ao tentar excluir o(a) jornalista." + e.getMessage());
 	        redirectAttributes.addFlashAttribute("tipoMensagem", "danger");
 	    }
 	    return "redirect:/jornalista/cadastrar";
 	}
     
-    @GetMapping("/consultar")
-    @ResponseBody
-    public List<Jornalista> buscarJornalistas(@RequestParam(name = "filtro") String filtro) {
-        List<Jornalista> listaPessoas = null;
-      
-
-        if (filtro != null && !filtro.isEmpty()) {
-        	listaPessoas = jornalistaService.buscarNome(filtro);          
-        }
-
-        return listaPessoas;
-    }
 }

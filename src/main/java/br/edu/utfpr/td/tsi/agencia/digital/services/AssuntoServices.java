@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ public class AssuntoServices {
 	@Autowired
 	private ReportagemRepository reportagemRepository;
 
+	
     public Assunto salvar(Assunto assunto) {
 
 		if(assunto.getId() != null && assunto.getId().isEmpty()) {
@@ -40,14 +40,14 @@ public class AssuntoServices {
         return assuntoRepository.findAllByNomeContainingIgnoreCase(filtro);
     }
 
-    public void excluir(String id) {
-    	ObjectId assuntoId = new ObjectId(id);
+    public void excluir(String assuntoId) {
+    	
     	boolean existe =  reportagemRepository.existsByAssuntosId(assuntoId);
     	
         if (existe) {
             throw new DadoVinculadoException("Não é possível excluir o assunto. Ele está vinculado a uma ou mais reportagens.");
         }
 
-        assuntoRepository.deleteById(id);
+        assuntoRepository.deleteById(assuntoId);
     }
 }
