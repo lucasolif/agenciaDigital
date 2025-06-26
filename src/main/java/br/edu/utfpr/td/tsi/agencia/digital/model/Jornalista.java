@@ -3,43 +3,23 @@ package br.edu.utfpr.td.tsi.agencia.digital.model;
 import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "Jornalistas")
 public class Jornalista {
 
     @Id
     private String id;
-       
-    @NotBlank(message = "Campo obrigatório")
     private String nome;
-    
-    @NotBlank(message = "Campo obrigatório")
     private String cpf;
-    
-    @NotNull(message = "Campo obrigatório")
     private LocalDate dataNascimento;
-    
     private String rg;
-    
-    @NotBlank(message = "Campo obrigatório")
     private String sexo;
-    
-    @NotBlank(message = "Campo obrigatório")
     private String celular;
-    
     private String telefone;
-    
-    @NotBlank(message = "Campo obrigatório")
-    private String email;
-    
+    private String email;   
     private boolean ativo;
-    
-    @NotNull(message = "Campo obrigatório")
     private Endereco endereco;
     
 

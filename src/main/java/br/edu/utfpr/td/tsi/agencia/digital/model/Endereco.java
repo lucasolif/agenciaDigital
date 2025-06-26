@@ -1,21 +1,14 @@
 package br.edu.utfpr.td.tsi.agencia.digital.model;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public class Endereco {
 
-	@NotBlank(message = "Campo obrigatório")
+
     private String logradouro;
-    @NotNull(message = "Campo obrigatório")
     private int numero;
-    @NotBlank(message = "Campo obrigatório")
     private String bairro;
-    @NotBlank(message = "Campo obrigatório")
     private String cidade;
-    @NotBlank(message = "Campo obrigatório")
     private String estado;
-    @NotBlank(message = "Campo obrigatório")
     private String cep;
     private String complemento;
     

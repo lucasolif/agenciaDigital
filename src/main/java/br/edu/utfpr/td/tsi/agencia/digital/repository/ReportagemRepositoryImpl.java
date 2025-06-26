@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import br.edu.utfpr.td.tsi.agencia.digital.dto.ReportagemDto;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Reportagem;
 
 @Repository
@@ -27,7 +26,7 @@ public class ReportagemRepositoryImpl implements ReportagemRepositoryCustom {
     }
      
     @Override
-    public List<ReportagemDto> consultar(String jornalistaId, String assuntoId, String status) {
+    public List<Reportagem> consultar(String jornalistaId, String assuntoId, String status) {
         Query query = new Query();
         List<Criteria> criterios = new ArrayList<>();
 
@@ -51,6 +50,6 @@ public class ReportagemRepositoryImpl implements ReportagemRepositoryCustom {
         List<Reportagem> listaReportagem = mongoTemplate.find(query, Reportagem.class);
 
         //Mapea e converte para ReportagemDto
-        return listaReportagem.stream().map(ReportagemDto::new).toList();
+        return listaReportagem;
     }
 }

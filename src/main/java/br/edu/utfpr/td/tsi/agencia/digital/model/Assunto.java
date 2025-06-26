@@ -4,18 +4,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import jakarta.validation.constraints.NotBlank;
-
 @Document(collection = "Assuntos")
 public class Assunto {
 
 	@Id
 	private String id;
-
     @Field("Nome")
-    @NotBlank(message = "Campo obrigatório")
-	private String nome;
-    
+	private String nome; 
     @Field("Status")
     private boolean status;
     

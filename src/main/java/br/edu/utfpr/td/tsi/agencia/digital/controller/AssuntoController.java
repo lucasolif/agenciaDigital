@@ -18,7 +18,6 @@ import br.edu.utfpr.td.tsi.agencia.digital.exception.DadoVinculadoException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.ErroBancoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.services.AssuntoServices;
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/assunto")
@@ -37,10 +36,9 @@ public class AssuntoController {
     }
     
 	@PostMapping(value = "/cadastrar")
-	public String salvar (@Valid Assunto assunto,BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) { 		
+	public String salvar (Assunto assunto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) { 		
 		try {	
 			
-			// Retorna mensagem caso os campos obrigatório não tenha sido preenchido
 			if (bindingResult.hasErrors()) {
 				model.addAttribute("assunto", assunto);
 	            return "formCadastroAssunto";
@@ -74,8 +72,7 @@ public class AssuntoController {
             return Collections.emptyList();   
         }
 	    
-	    List<Assunto> listaAssunto = assuntoServices.buscarNome(filtro);	       
-	    
+	    List<Assunto> listaAssunto = assuntoServices.buscarNome(filtro);	          
 	    return listaAssunto;	   
 	}
 		

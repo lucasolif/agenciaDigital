@@ -10,4 +10,6 @@ public interface JornalistaRepository extends MongoRepository<Jornalista, String
     
     List<Jornalista> findByNomeContainingIgnoreCase(String nome);
     
+    Jornalista findJornalistaById(String id);
+    
 }

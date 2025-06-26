@@ -19,8 +19,6 @@ import br.edu.utfpr.td.tsi.agencia.digital.exception.DadosDuplicadosException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.DadoVinculadoException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
 import br.edu.utfpr.td.tsi.agencia.digital.services.JornalistaServices;
-import jakarta.validation.Valid;
-
 
 @Controller
 @RequestMapping("/jornalista")
@@ -40,7 +38,7 @@ public class JornalistaController {
     }
     
 	@PostMapping(value = "/cadastrar")
-	public String salvar (@Valid Jornalista jornalista, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) { 		
+	public String salvar (Jornalista jornalista, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) { 		
 		try {		
 			
 			// Retorna mensagem caso os campos obrigatório não tenha sido preenchido
@@ -72,6 +70,7 @@ public class JornalistaController {
     @GetMapping("/consultar")
     @ResponseBody
     public List<Jornalista> buscarJornalistas(@RequestParam(name = "filtro") String filtro) {
+    	
         List<Jornalista> listaPessoas = null;
 
         if (filtro != null && !filtro.isEmpty()) {

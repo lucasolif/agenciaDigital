@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.utfpr.td.tsi.agencia.digital.dto.ReportagemDto;
@@ -20,7 +21,7 @@ import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Reportagem;
 import br.edu.utfpr.td.tsi.agencia.digital.services.AssuntoServices;
 import br.edu.utfpr.td.tsi.agencia.digital.services.ReportagemServices;
-import jakarta.validation.Valid;
+
 
 @Controller
 @RequestMapping("/reportagem")
@@ -42,7 +43,7 @@ public class ReportagemController {
     }
 
     @PostMapping("/cadastrar")
-    public String salvarReportagem(@Valid Reportagem reportagem, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
+    public String salvarReportagem(Reportagem reportagem, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
 		
     	// Retorna mensagem caso os campos obrigatório não tenha sido preenchido
 		if (bindingResult.hasErrors()) {
@@ -77,6 +78,7 @@ public class ReportagemController {
     @GetMapping("/consultar")
     public String consultarReportagem(@RequestParam(required = false) String jornalistaId, @RequestParam(required = false) String status, @RequestParam(required = false) String assuntoId, Model model) {
         
+    	List<Assunto> listaAssuntos = assuntoService.listarTodos();
         List<ReportagemDto> listaReportagemDTO = null;
 
         //Adicionado essa validação para que ao abrir a tela não seja listados todos
@@ -84,17 +86,20 @@ public class ReportagemController {
             listaReportagemDTO = reportagemService.consultarReportagens(jornalistaId, assuntoId, status);
         }
 
-        List<Assunto> listaAssuntos = assuntoService.listarTodos();
-
         model.addAttribute("reportagensDto", listaReportagemDTO);
         model.addAttribute("assuntos", listaAssuntos);
         
-        //Passando esses atributos para que o Thymleaf mantenha os filtro após a consulta
         model.addAttribute("jornalistaId", jornalistaId); 
         model.addAttribute("assuntoId", assuntoId);
         model.addAttribute("status", status);
 
         return "formConsultaReportagem";
+    }
+    
+    @GetMapping("/consultaIndexada")
+    @ResponseBody
+    public List<ReportagemDto> consultaIndexada(@RequestParam(required = false) String buscaIndexada) {      	
+    	return reportagemService.listarTodosBuscaIndexada(buscaIndexada);
     }
     
     @PostMapping("/excluir")

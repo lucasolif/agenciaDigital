@@ -11,4 +11,8 @@ public class IndexController {
 	    return "formPaginaInicial";
 	}
 	
+	@GetMapping("/")
+	public String redirecionarParaInicio() {
+	    return "redirect:/inicio";
+	}
 }

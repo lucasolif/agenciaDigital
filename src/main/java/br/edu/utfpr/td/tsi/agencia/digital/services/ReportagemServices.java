@@ -1,6 +1,7 @@
 package br.edu.utfpr.td.tsi.agencia.digital.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,8 +13,11 @@ import br.edu.utfpr.td.tsi.agencia.digital.dto.ReportagemDto;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.CotaReportagemException;
 import br.edu.utfpr.td.tsi.agencia.digital.exception.StatusReportagemException;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Assunto;
+import br.edu.utfpr.td.tsi.agencia.digital.model.Jornalista;
 import br.edu.utfpr.td.tsi.agencia.digital.model.Reportagem;
+import br.edu.utfpr.td.tsi.agencia.digital.repository.JornalistaRepository;
 import br.edu.utfpr.td.tsi.agencia.digital.repository.ReportagemRepository;
+
 
 
 @Service
@@ -21,6 +25,11 @@ public class ReportagemServices {
 
 	@Autowired
 	private ReportagemRepository reportagemRepository;
+	@Autowired
+	private JornalistaRepository jornalistaRepository;
+	@Autowired
+	private IndexadorReportagem indexadorReportagem;
+	
 	
 	public Reportagem salvar(Reportagem reportagem) {
 
@@ -76,7 +85,38 @@ public class ReportagemServices {
     }
     
     public List<ReportagemDto> consultarReportagens(String jornalistaId, String assuntoId, String status) {
-        return reportagemRepository.consultar(jornalistaId, assuntoId, status);
+    	
+		List<ReportagemDto> listaReportagensDto = new ArrayList<ReportagemDto>();
+    	List<Reportagem> listaReportagem = reportagemRepository.consultar(jornalistaId, assuntoId, status);
+    	
+    	for(Reportagem report : listaReportagem) {
+    		Jornalista jornalista = jornalistaRepository.findJornalistaById(report.getJornalista().getId());
+    		report.setJornalista(jornalista);
+    		
+    		ReportagemDto reportagemDto = new ReportagemDto(report);
+    		listaReportagensDto.add(reportagemDto);
+    	}
+    	
+    	return listaReportagensDto;
     }
+    
+	public List<ReportagemDto> listarTodosBuscaIndexada(String termo) {
+		
+		List<ReportagemDto> listaReportagensDto = new ArrayList<ReportagemDto>();
+		List<String> ids = indexadorReportagem.procurar(termo);
+		
+		for (String idReportagem : ids) {	
+			
+			Reportagem reportagem = reportagemRepository.findById(idReportagem).orElse(null);
+			Jornalista jornalista = jornalistaRepository.findJornalistaById(reportagem.getJornalista().getId());
+			
+			reportagem.setJornalista(jornalista);
+			ReportagemDto reportagemDto = new ReportagemDto(reportagem);
+			
+			listaReportagensDto.add(reportagemDto);
+		}	
+		
+		return listaReportagensDto;
+	}
 
 }

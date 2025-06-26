@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.addEventListener("input", function () {
       const filtro = this.value.trim();
 
-      if (filtro.length >= 3) {
+      if (filtro.length >= 1) {
         fetch(`/agenciaDigital/jornalista/consultar?filtro=${encodeURIComponent(filtro)}`)
           .then(response => response.json())
           .then(data => {

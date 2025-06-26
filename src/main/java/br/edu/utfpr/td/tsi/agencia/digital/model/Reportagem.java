@@ -7,9 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "Reportagens")
 public class Reportagem {
@@ -18,26 +15,18 @@ public class Reportagem {
 	private String id;
 	
     @Field("Titulo")
-    @NotBlank(message = "Campo obrigatório")
-    private String titulo;
-		 
+    private String titulo;	 
     @Field("Jornalista")
-    @NotNull(message = "Campo obrigatório")
-    private Jornalista jornalista;
-    
+    private Jornalista jornalista;    
     @Field("Assuntos")
-    @NotEmpty(message = "Escolha um ou mais assunto")
-    private List<Assunto> assuntos;
-    
+    private List<Assunto> assuntos;  
     @Field("Descricao")
-    @NotBlank(message = "Campo obrigatório")
     private String descricao;
-    
     @Field("Status")
-    private String status;
-    
+    private String status;  
     @Field("DataCadastro")
     private LocalDate dataCadastro;   
+    
     
 	public String getId() {
 		return id;

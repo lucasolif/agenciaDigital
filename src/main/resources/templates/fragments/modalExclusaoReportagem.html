@@ -19,8 +19,7 @@
 		      		<div class="modal-footer">
 		        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 		        		<form id="formExcluirReportagem" method="post" th:action="@{/reportagem/excluir}" th:object="${reportagem}">
-		          			<input type="hidden" name="id" id="reportagemIdParaExcluir" />
-		          			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		          			<input type="hidden" name="id" id="reportagemIdParaExcluir" />		          		
 		          			<button type="submit" class="btn btn-danger">Excluir</button>
 		        		</form>
 		      		</div>
