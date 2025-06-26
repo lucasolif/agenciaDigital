@@ -31,14 +31,7 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 - Clone o Projeto.
 - Altere o arquivo "application.properties" adicionando as configurações do seu banco de dados.
 - Abra o CMD e execute o arquivo "agenciaDigital.JAR", que se encontra na raiz do projeto.
-- URL para abrir: http://localhost:8080/agenciaDigital/login
- <br><br>
-
-🔑 **EFETUAR LOGIN**
-
-Ao executar a aplicação, automaticamente será criado um usuário com os seguintes dados<br>
-- **Login:** admin
-- **Senha:** admin@123
+- URL para abrir: http://localhost:8080/agenciaDigital/
  <br><br>
 
 👀 **OBSERVAÇÕES**
