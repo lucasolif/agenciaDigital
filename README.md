@@ -23,7 +23,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 - Bootstrap 5 para layout e responsividade.
 - Maven para gerenciamento de dependências.
 - JAVAX para algumas funções do front-end.
-- Spring Security.
 - SolrJ (Indexação e busca indexada).
  <br><br>
 
