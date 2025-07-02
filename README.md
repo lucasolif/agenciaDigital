@@ -37,6 +37,6 @@ O Agência Digital é um sistema web para fins acadêmico, desenvolvido para ger
 
 - É necessário ter o JRE instalado.
 - O arquivo "application.properties" precisa estar na mesma pasta que o arquivo "agenciaDigital.JAR".
-- Para executar os processos, precisa de um MongoDB.
+- Para executar os processos (cadastro, alteração...) precisa de um MongoDB.
   
 
