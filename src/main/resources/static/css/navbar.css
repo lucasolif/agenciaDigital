@@ -6,7 +6,7 @@ body {
 
 .navbar{
     background-color: #1e1e1e; /* tom mais escuro que o sidebar */
-    color: #bb86fc;
+    color: #08dcc4;
     font-family: 'Inter', sans-serif;
 }
 
@@ -20,7 +20,7 @@ body {
     height: 35px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #bb86fc; /* Azul mais claro */
+    border: 2px solid #08dcc4; /* Azul mais claro */
     padding: 2px;
 }
 .logo-img {
@@ -33,7 +33,7 @@ body {
 }
 
 a {
-    color: #bb86fc;
+    color: #08dcc4;
 }
 
 .alert-danger {
@@ -44,5 +44,5 @@ a {
 
 .dropdown-menu .dropdown-item:hover {
     background-color: #1e1e1e;
-    color: #bb86fc;
+    color: #08dcc4;
 }

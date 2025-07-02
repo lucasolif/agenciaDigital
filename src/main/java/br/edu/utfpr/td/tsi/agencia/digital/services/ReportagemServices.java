@@ -45,7 +45,12 @@ public class ReportagemServices {
             if (qtdReportagem < 2) {
                 reportagem.setId(UUID.randomUUID().toString());
                 reportagem.setDataCadastro(LocalDate.now());
-                return reportagemRepository.save(reportagem);
+                
+                Reportagem reportagemSalva = reportagemRepository.save(reportagem);
+                indexarReportagem();
+                
+                return reportagemSalva;
+                
             } else {
                 throw new CotaReportagemException("Você possui 2 reportagens com os assuntos escolhidos, cadastradas hoje.");
             }
@@ -57,11 +62,14 @@ public class ReportagemServices {
         return reportagemRepository.findById(id);
     }
     
-    public Reportagem consultarReportagemId(String id) {
+    public Reportagem alterarReportagem(String id) {
     	
     	Reportagem reportagem = reportagemRepository.findById(id).orElse(null);
-    	
+
     	if(reportagem.getStatus().equalsIgnoreCase("em produção")) {
+    		Jornalista jornalista = jornalistaRepository.findById(reportagem.getJornalista().getId()).orElse(null);
+    		reportagem.setJornalista(jornalista);
+    		
     		return reportagem;
     	}else {
     		throw new StatusReportagemException("Só é permitido alterar reportagem com status 'Em Produção'.");
@@ -89,34 +97,41 @@ public class ReportagemServices {
 		List<ReportagemDto> listaReportagensDto = new ArrayList<ReportagemDto>();
     	List<Reportagem> listaReportagem = reportagemRepository.consultar(jornalistaId, assuntoId, status);
     	
-    	for(Reportagem report : listaReportagem) {
-    		Jornalista jornalista = jornalistaRepository.findJornalistaById(report.getJornalista().getId());
-    		report.setJornalista(jornalista);
+    	for(Reportagem report : listaReportagem) {  	
+    		
+    		Jornalista jornalista = jornalistaRepository.findById(report.getJornalista().getId()).orElse(null);
+    		report.setJornalista(jornalista); 
     		
     		ReportagemDto reportagemDto = new ReportagemDto(report);
+    		
     		listaReportagensDto.add(reportagemDto);
     	}
     	
     	return listaReportagensDto;
     }
     
-	public List<ReportagemDto> listarTodosBuscaIndexada(String termo) {
-		
-		List<ReportagemDto> listaReportagensDto = new ArrayList<ReportagemDto>();
-		List<String> ids = indexadorReportagem.procurar(termo);
-		
-		for (String idReportagem : ids) {	
-			
-			Reportagem reportagem = reportagemRepository.findById(idReportagem).orElse(null);
-			Jornalista jornalista = jornalistaRepository.findJornalistaById(reportagem.getJornalista().getId());
-			
-			reportagem.setJornalista(jornalista);
-			ReportagemDto reportagemDto = new ReportagemDto(reportagem);
-			
-			listaReportagensDto.add(reportagemDto);
-		}	
-		
-		return listaReportagensDto;
+    public List<ReportagemDto> listarTodosBuscaIndexada(String termo) {
+        List<ReportagemDto> listaReportagensDto = new ArrayList<>();
+        List<String> ids = indexadorReportagem.procurar(termo);
+
+        for (String idReportagem : ids) {
+            Reportagem reportagem = reportagemRepository.findById(idReportagem).orElse(null);
+            
+    		Jornalista jornalista = jornalistaRepository.findById(reportagem.getJornalista().getId()).orElse(null);
+    		reportagem.setJornalista(jornalista);
+    		
+            if (reportagem != null) {
+                ReportagemDto reportagemDto = new ReportagemDto(reportagem);
+                listaReportagensDto.add(reportagemDto);
+            }
+        }
+
+        return listaReportagensDto;
+    }
+    
+	public void indexarReportagem() {
+		List<Reportagem> reportagens = listar();
+		indexadorReportagem.indexar(reportagens);
 	}
 
 }

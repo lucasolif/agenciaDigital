@@ -13,11 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	document.getElementById("btnAlterar").addEventListener("click", function () {
-	    if (!linhaSelecionada) {
-	        alert("Selecione uma reportagem para alterar.");
-	        return;
-	    }
-
 	    const id = linhaSelecionada.getAttribute("data-reportagem-id");
 	    window.location.href = `/agenciaDigital/reportagem/editar/${id}`;
 	});

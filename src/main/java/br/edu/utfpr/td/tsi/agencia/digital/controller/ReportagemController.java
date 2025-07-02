@@ -122,7 +122,7 @@ public class ReportagemController {
     public String editarReportagem(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
 
         try {
-            Reportagem reportagem = reportagemService.consultarReportagemId(id);
+            Reportagem reportagem = reportagemService.alterarReportagem(id);
 
             model.addAttribute("reportagem", reportagem);
             model.addAttribute("assuntos", assuntoService.listarTodos());

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Document(collection = "Jornalistas")
@@ -13,6 +14,7 @@ public class Jornalista {
     private String id;
     private String nome;
     private String cpf;
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private LocalDate dataNascimento;
     private String rg;
     private String sexo;

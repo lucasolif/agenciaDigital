@@ -22,28 +22,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${j.ativo ? "Ativo" : "Inativo"}</td>
               `;
 
-              // Clique na linha para selecionar
-              row.addEventListener("click", () => {
-                // Verifica se a linha já está selecionada
-                if (!row.classList.contains("selecionada")) {
-                  // Remove seleção anterior
-                  resultsTable.querySelectorAll("tr.selecionada").forEach(r => r.classList.remove("selecionada"));
-                  // Adiciona a classe de seleção à linha clicada
-                  row.classList.add("selecionada");
-                  // Atualiza o objeto do jornalista selecionado
-                  jornalistaSelecionado = j;
-                } else {
-                  // Se a linha já estiver selecionada, desmarque-a
-                  row.classList.remove("selecionada");
-                  jornalistaSelecionado = null;
-                }
-              });
 
-              resultsTable.appendChild(row);
-            });
+			    // Clique na linha para selecionar
+			      row.addEventListener("click", () => {
+			        const isSelected = row.classList.contains("table-active");
 
-            // Limpa seleção ao refazer busca
-            jornalistaSelecionado = null;
+			        // Remove qualquer seleção anterior
+			        resultsTable.querySelectorAll("tr.table-active").forEach(r => r.classList.remove("table-active"));
+
+			        if (!isSelected) {
+			          row.classList.add("table-active");
+			          jornalistaSelecionado = j;
+			        } else {
+			          jornalistaSelecionado = null;
+			        }
+			      });
+
+			      resultsTable.appendChild(row);
+			    });
+
+			  // Limpa seleção ao refazer busca
+			  jornalistaSelecionado = null;
           });
       } else {
         resultsTable.innerHTML = "";

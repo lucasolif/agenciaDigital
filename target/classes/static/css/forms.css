@@ -6,12 +6,12 @@
 }
 
 .btn-buscar:hover {
-    background-color: #bb86fc;
+    background-color: #08dcc4;
     color: #fff;
-    border-color: #bb86fc;
+    border-color: #08dcc4;
 }
 .table-active {
-    --bs-table-active-bg: #bb86fc; /* Cor da linha selecionada */
+    --bs-table-active-bg: #08dcc4; /* Cor da linha selecionada */
     --bs-table-active-color: black; /* Cor do texto */
 }
 .no-select {

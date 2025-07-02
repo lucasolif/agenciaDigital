@@ -1,6 +1,6 @@
 .sidebar-custom {
     background-color: #2c2c2c;
-    color: #bb86fc;
+    color: #08dcc4;
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding: 1.5rem;
@@ -16,7 +16,7 @@
 }
 
 .sidebar-custom .nav-link:hover {
-    background-color: #bb86fc;
+    background-color: #08dcc4;
     border-radius: 0.25rem;
     color:#121212;
 }

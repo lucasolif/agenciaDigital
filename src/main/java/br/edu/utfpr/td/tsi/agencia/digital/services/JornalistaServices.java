@@ -21,8 +21,7 @@ public class JornalistaServices {
 	@Autowired
 	private ReportagemRepository reportagemRepository;
 
-    public Jornalista salvar(Jornalista jornalista) {
-   		
+    public Jornalista salvar(Jornalista jornalista) { 	
 		if(jornalista.getId() != null && jornalista.getId().isEmpty()){
 			jornalista.setId(UUID.randomUUID().toString());
 		}
